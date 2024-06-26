@@ -108,12 +108,12 @@ class HomeScreen extends StatelessWidget {
                       isCompletedTasks: true,
                       tasks: [
                         Tasks(
-                          title: "education",
+                          title: "Personal",
                           note: "note", 
                           time: "July", 
                           date: "19th", 
                           isCompleted: true, 
-                          category: TaskCategories.education
+                          category: TaskCategories.personal
                         ),
                       ],
                     ),
