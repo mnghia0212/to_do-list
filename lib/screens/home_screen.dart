@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_app/config/routes/routes.dart';
 import 'package:todo_app/utils/utils.dart';
 import 'package:todo_app/widgets/widgets.dart';
 import 'package:todo_app/data/data.dart';
 
 class HomeScreen extends StatelessWidget {
+  static HomeScreen builder(BuildContext context, GoRouterState state) =>
+      const HomeScreen();
   const HomeScreen({super.key});
 
   @override
@@ -29,9 +33,7 @@ class HomeScreen extends StatelessWidget {
                           text: "June 17th 2024",
                           fontSize: 20,
                         ),
-                        
                         Gap(10),
-                        
                         DisplayWhiteText(
                           text: "My Todo List",
                           fontSize: 40,
@@ -56,82 +58,66 @@ class HomeScreen extends StatelessWidget {
                     const DisplayListOfTasks(
                       tasks: [
                         Tasks(
-                          title: "education",
-                          note: "note", 
-                          time: "July", 
-                          date: "19th", 
-                          isCompleted: false, 
-                          category: TaskCategories.education
-                        ),
-
+                            title: "education",
+                            note: "note",
+                            time: "July",
+                            date: "19th",
+                            isCompleted: false,
+                            category: TaskCategories.education),
                         Tasks(
-                          title: "title",
-                          note: "note", 
-                          time: "July", 
-                          date: "19th", 
-                          isCompleted: false, 
-                          category: TaskCategories.health
-                        ),
-
+                            title: "title",
+                            note: "note",
+                            time: "July",
+                            date: "19th",
+                            isCompleted: false,
+                            category: TaskCategories.health),
                         Tasks(
-                          title: "title",
-                          note: "note", 
-                          time: "July", 
-                          date: "19th", 
-                          isCompleted: false, 
-                          category: TaskCategories.home
-                        ),
-
+                            title: "title",
+                            note: "note",
+                            time: "July",
+                            date: "19th",
+                            isCompleted: false,
+                            category: TaskCategories.home),
                         Tasks(
-                          title: "title",
-                          note: "note", 
-                          time: "July", 
-                          date: "19th", 
-                          isCompleted: false, 
-                          category: TaskCategories.others
-                        )
+                            title: "title",
+                            note: "note",
+                            time: "July",
+                            date: "19th",
+                            isCompleted: false,
+                            category: TaskCategories.others)
                       ],
                     ),
-                    
                     const Gap(20),
-
                     Text(
                       'Completed tasks',
                       style: context.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     const Gap(20),
-
                     const DisplayListOfTasks(
                       isCompletedTasks: true,
                       tasks: [
                         Tasks(
-                          title: "Personal",
-                          note: "note", 
-                          time: "July", 
-                          date: "19th", 
-                          isCompleted: true, 
-                          category: TaskCategories.personal
-                        ),
+                            title: "Personal",
+                            note: "note",
+                            time: "July",
+                            date: "19th",
+                            isCompleted: true,
+                            category: TaskCategories.personal),
                       ],
                     ),
-
-
-                    
                   ],
                 ),
               ),
             ),
           ),
-
           Positioned(
             bottom: 20,
             left: 20,
             right: 20,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => context.push(RouteLocation.createTask),
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 13),
                 child: DisplayWhiteText(
