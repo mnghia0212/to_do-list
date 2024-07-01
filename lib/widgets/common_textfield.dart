@@ -7,12 +7,17 @@ class CommonTextfield extends StatelessWidget {
       {super.key,
       required this.labelName,
       required this.hintText,
-      this.controller, this.maxLines});
+      this.controller, 
+      this.maxLines, 
+      this.suffixIcon, 
+      this.readOnly = false});
 
   final String labelName;
   final String hintText;
   final TextEditingController? controller;
   final int? maxLines;
+  final Widget? suffixIcon;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +29,19 @@ class CommonTextfield extends StatelessWidget {
           style: context.textTheme.titleLarge,
         ),
         const Gap(10),
+
         TextField(
+          readOnly: readOnly,
           maxLines: maxLines,
           controller: controller,
           onTapOutside: (event) {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           onChanged: (value) {},
-          decoration: InputDecoration(hintText: hintText),
+          decoration: InputDecoration(
+            hintText: hintText,
+            suffixIcon: suffixIcon
+          ),
         )
       ],
     );

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
+import 'package:todo_app/utils/extensions.dart';
 import 'package:todo_app/widgets/widgets.dart';
 
 class CreateTaskScreen extends StatelessWidget {
@@ -35,19 +38,7 @@ class CreateTaskScreen extends StatelessWidget {
 
             const Gap(30),
 
-            const Row(
-              children: [
-                Expanded(
-                  child: CommonTextfield(labelName: "Date:", hintText: "Enter date...")
-                ),
-
-                Gap(15),
-
-                Expanded(
-                  child: CommonTextfield(labelName: "Time:", hintText: "Enter time...")
-                )
-              ],
-            ),
+            const SelectDateTime(),
 
             const Gap(30),
 
@@ -56,7 +47,7 @@ class CreateTaskScreen extends StatelessWidget {
               hintText: "Take note for this task...",
               maxLines: 5,
             ),
-            
+
             const Gap(30),
 
             ElevatedButton(
