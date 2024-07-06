@@ -25,17 +25,22 @@ class TaskDatasource {
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    await db.execute('''
-        CREATE TABLE${DBKeys.dbTable} (
-          ${DBKeys.idColumn} INTEGER PRIMARY KEY AUTOINCREMENT,
-          ${DBKeys.timeComlumn} TEXT,
-          ${DBKeys.noteComlumn} TEXT,
-          ${DBKeys.timeComlumn} TEXT,
-          ${DBKeys.dateComlumn} TEXT,
-          ${DBKeys.categoryComlumn} TEXT,
-          ${DBKeys.isCompletedComlumn} INTEGER,
-        )
-        ''');
+    try {
+      await db.execute('''
+      CREATE TABLE ${DBKeys.dbTable} (
+        ${DBKeys.idColumn} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${DBKeys.titleComlumn} TEXT,
+        ${DBKeys.noteComlumn} TEXT,
+        ${DBKeys.timeComlumn} TEXT,
+        ${DBKeys.dateComlumn} TEXT,
+        ${DBKeys.categoryComlumn} TEXT,
+        ${DBKeys.isCompletedComlumn} INTEGER
+      )
+      ''');
+    } catch (e) {
+      print("Error creating table: $e");
+      rethrow;
+    }
   }
 
   Future<int> addTask(Tasks task) async {

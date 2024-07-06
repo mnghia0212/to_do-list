@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/config/routes/routes.dart';
+import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/utils/utils.dart';
 import 'package:todo_app/widgets/widgets.dart';
-import 'package:todo_app/data/data.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   static HomeScreen builder(BuildContext context, GoRouterState state) =>
       const HomeScreen();
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colorScheme;
     final deviceSize = context.deviceSize;
+    final taskState = ref.watch(taskProvider);
 
     return Scaffold(
       body: Stack(
@@ -55,37 +57,9 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const DisplayListOfTasks(
-                      tasks: [
-                        Tasks(
-                            title: "education",
-                            note: "note",
-                            time: "July",
-                            date: "19th",
-                            isCompleted: false,
-                            category: TaskCategories.education),
-                        Tasks(
-                            title: "title",
-                            note: "note",
-                            time: "July",
-                            date: "19th",
-                            isCompleted: false,
-                            category: TaskCategories.health),
-                        Tasks(
-                            title: "title",
-                            note: "note",
-                            time: "July",
-                            date: "19th",
-                            isCompleted: false,
-                            category: TaskCategories.home),
-                        Tasks(
-                            title: "title",
-                            note: "note",
-                            time: "July",
-                            date: "19th",
-                            isCompleted: false,
-                            category: TaskCategories.others)
-                      ],
+                    DisplayListOfTasks(
+                      tasks: taskState.tasks,
+
                     ),
                     const Gap(20),
                     Text(
@@ -95,17 +69,9 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const Gap(20),
-                    const DisplayListOfTasks(
+                    DisplayListOfTasks(
                       isCompletedTasks: true,
-                      tasks: [
-                        Tasks(
-                            title: "Personal",
-                            note: "note",
-                            time: "July",
-                            date: "19th",
-                            isCompleted: true,
-                            category: TaskCategories.personal),
-                      ],
+                      tasks: taskState.tasks
                     ),
                   ],
                 ),

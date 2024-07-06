@@ -16,7 +16,7 @@ class DisplayListOfTasks extends StatelessWidget {
         isCompletedTasks ? deviceSize.height * 0.25 : deviceSize.height * 0.3;
     final emptyTaskMessage = isCompletedTasks
         ? "There is no completed task"
-        : "There is no task todo!";
+        : "There is no todo task!";
 
     return CommonContainer(
       height: height,
@@ -24,7 +24,7 @@ class DisplayListOfTasks extends StatelessWidget {
           ? Center(
               child: Text(
                 emptyTaskMessage,
-                style: context.textTheme.titleMedium,
+                style: context.textTheme.titleLarge,
               ),
             )
           : ListView.separated(
