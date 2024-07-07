@@ -94,13 +94,12 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
           isCompleted: false);
 
       await ref.read(taskProvider.notifier).createTask(task).then((value) {
-        AppAlerts.displaySnackBar(context, "Successfully create new todo task!");
-        context.go(RouteLocation.home);
+        AppAlerts.displaySnackBar(
+            context, "Successfully create new todo task!");
+        context.pop(RouteLocation.home);
       });
-    }
-    else {
+    } else {
       AppAlerts.displaySnackBar(context, "Can't create a task without title!");
     }
-
   }
 }

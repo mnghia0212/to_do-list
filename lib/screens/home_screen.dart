@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/config/routes/routes.dart';
+import 'package:todo_app/data/data.dart';
 import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/utils/utils.dart';
 import 'package:todo_app/widgets/widgets.dart';
@@ -17,7 +19,9 @@ class HomeScreen extends ConsumerWidget {
     final colors = context.colorScheme;
     final deviceSize = context.deviceSize;
     final taskState = ref.watch(taskProvider);
-
+    final completedTasks = _completedTasks(taskState.tasks);
+    final inCompletedTasks = _inCompletedTasks(taskState.tasks);
+    final selectedDate = ref.watch(dateProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -27,16 +31,19 @@ class HomeScreen extends ConsumerWidget {
                 width: deviceSize.width,
                 height: deviceSize.height * 0.3,
                 color: colors.primaryFixed,
-                child: const Center(
+                child: Center(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        DisplayWhiteText(
-                          text: "June 17th 2024",
-                          fontSize: 20,
+                        InkWell(
+                          onTap: () => Helpers.selectDate(context, ref),
+                          child: DisplayWhiteText(
+                            text: DateFormat.yMMMd().format(selectedDate),
+                            fontSize: 20,
+                          ),
                         ),
-                        Gap(10),
-                        DisplayWhiteText(
+                        const Gap(10),
+                        const DisplayWhiteText(
                           text: "My Todo List",
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
@@ -58,8 +65,7 @@ class HomeScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     DisplayListOfTasks(
-                      tasks: taskState.tasks,
-
+                      tasks: inCompletedTasks,
                     ),
                     const Gap(20),
                     Text(
@@ -70,9 +76,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     const Gap(20),
                     DisplayListOfTasks(
-                      isCompletedTasks: true,
-                      tasks: taskState.tasks
-                    ),
+                        isCompletedTasks: true, tasks: completedTasks),
                   ],
                 ),
               ),
@@ -95,5 +99,25 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  List<Tasks> _completedTasks(List<Tasks> tasks) {
+    final List<Tasks> filteredTasks = [];
+    for (var task in tasks) {
+      if (task.isCompleted) {
+        filteredTasks.add(task);
+      }
+    }
+    return filteredTasks;
+  }
+
+  List<Tasks> _inCompletedTasks(List<Tasks> tasks) {
+    final List<Tasks> filteredTasks = [];
+    for (var task in tasks) {
+      if (!task.isCompleted) {
+        filteredTasks.add(task);
+      }
+    }
+    return filteredTasks;
   }
 }

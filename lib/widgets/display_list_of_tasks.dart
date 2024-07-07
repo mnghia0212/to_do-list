@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/widgets/widgets.dart';
 import 'package:todo_app/utils/utils.dart';
 import 'package:todo_app/data/data.dart';
 
-class DisplayListOfTasks extends StatelessWidget {
+class DisplayListOfTasks extends ConsumerWidget {
   const DisplayListOfTasks(
       {super.key, required this.tasks, this.isCompletedTasks = false});
+
   final List<Tasks> tasks;
   final bool isCompletedTasks;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final deviceSize = context.deviceSize;
     final height =
         isCompletedTasks ? deviceSize.height * 0.25 : deviceSize.height * 0.3;
@@ -35,9 +38,6 @@ class DisplayListOfTasks extends StatelessWidget {
                 final task = tasks[index];
 
                 return InkWell(
-                    onLongPress: () {
-                      //TODO-delete task
-                    },
                     onTap: () async {
                       //TODO-show task details
                       await showModalBottomSheet(
@@ -46,7 +46,38 @@ class DisplayListOfTasks extends StatelessWidget {
                             return TaskDetails(task: task);
                           });
                     },
-                    child: TaskTile(task: task));
+                    //TODO-delete task details
+                    child: Dismissible(
+                        key: ValueKey<int>(index),
+                        confirmDismiss: (DismissDirection direction) async {
+                          if (direction == DismissDirection.endToStart) {
+                            await AppAlerts.showAlertDeleteDialog(
+                                context: context, ref: ref, task: task);
+                          }
+                          return null;
+                        },
+                        secondaryBackground: Container(
+                          color: Colors.red,
+                          child: const Icon(color: Colors.black, Icons.delete),
+                        ),
+                        background: Container(
+                          color: context.colorScheme.primaryContainer,
+                        ),
+                        child: TaskTile(
+                          task: task,
+                          onCompleted: (value) async {
+                            await ref
+                                .read(taskProvider.notifier)
+                                .updateTask(task)
+                                .then((value) {
+                              AppAlerts.displaySnackBar(
+                                  context,
+                                  task.isCompleted
+                                      ? '${task.title} incompleted'
+                                      : '${task.title} completed');
+                            });
+                          },
+                        )));
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const Divider(
