@@ -19,10 +19,32 @@ class HomeScreen extends ConsumerWidget {
     final colors = context.colorScheme;
     final deviceSize = context.deviceSize;
     final taskState = ref.watch(taskProvider);
-    final completedTasks = _completedTasks(taskState.tasks);
-    final inCompletedTasks = _inCompletedTasks(taskState.tasks);
+    final completedTasks = _completedTask(taskState.tasks, ref);
+    final inCompletedTasks = _incompletedTask(taskState.tasks, ref);
     final selectedDate = ref.watch(dateProvider);
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        onTap: (value) {
+          
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home"
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mark_chat_read),
+            label: "Completed"
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.delete),
+            label: "Deleted"
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Column(
@@ -77,21 +99,17 @@ class HomeScreen extends ConsumerWidget {
                     const Gap(20),
                     DisplayListOfTasks(
                         isCompletedTasks: true, tasks: completedTasks),
+                    const Gap(20),
+                    ElevatedButton(
+                      onPressed: () => context.push(RouteLocation.createTask),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 13),
+                        child: DisplayWhiteText(
+                          text: 'Add New Task',
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 20,
-            left: 20,
-            right: 20,
-            child: ElevatedButton(
-              onPressed: () => context.push(RouteLocation.createTask),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 13),
-                child: DisplayWhiteText(
-                  text: 'Add New Task',
                 ),
               ),
             ),
@@ -101,23 +119,33 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  List<Tasks> _completedTasks(List<Tasks> tasks) {
-    final List<Tasks> filteredTasks = [];
-    for (var task in tasks) {
-      if (task.isCompleted) {
-        filteredTasks.add(task);
-      }
-    }
-    return filteredTasks;
-  }
+  List<Tasks> _incompletedTask(List<Tasks> tasks, WidgetRef ref) {
+    final date = ref.watch(dateProvider);
+    final List<Tasks> filteredTask = [];
 
-  List<Tasks> _inCompletedTasks(List<Tasks> tasks) {
-    final List<Tasks> filteredTasks = [];
     for (var task in tasks) {
       if (!task.isCompleted) {
-        filteredTasks.add(task);
+        final isTaskDay = Helpers.isTaskFromSelectedDate(task, date);
+        if (isTaskDay) {
+          filteredTask.add(task);
+        }
       }
     }
-    return filteredTasks;
+    return filteredTask;
+  }
+
+  List<Tasks> _completedTask(List<Tasks> tasks, WidgetRef ref) {
+    final date = ref.watch(dateProvider);
+    final List<Tasks> filteredTask = [];
+
+    for (var task in tasks) {
+      if (task.isCompleted) {
+        final isTaskDay = Helpers.isTaskFromSelectedDate(task, date);
+        if (isTaskDay) {
+          filteredTask.add(task);
+        }
+      }
+    }
+    return filteredTask;
   }
 }

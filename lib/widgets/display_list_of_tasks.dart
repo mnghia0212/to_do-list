@@ -46,7 +46,7 @@ class DisplayListOfTasks extends ConsumerWidget {
                             return TaskDetails(task: task);
                           });
                     },
-                    //TODO-delete task details
+                    //TODO-delete task
                     child: Dismissible(
                         key: ValueKey<int>(index),
                         confirmDismiss: (DismissDirection direction) async {
