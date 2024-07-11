@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/widgets/widgets.dart';
 import 'package:todo_app/utils/utils.dart';
@@ -14,15 +15,11 @@ class DisplayListOfTasks extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final deviceSize = context.deviceSize;
-    final height =
-        isCompletedTasks ? deviceSize.height * 0.25 : deviceSize.height * 0.3;
     final emptyTaskMessage = isCompletedTasks
         ? "There is no completed task"
         : "There is no todo task!";
 
     return CommonContainer(
-      height: height,
       child: tasks.isEmpty
           ? Center(
               child: Text(
@@ -80,9 +77,7 @@ class DisplayListOfTasks extends ConsumerWidget {
                         )));
               },
               separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  thickness: 2,
-                );
+                return const Gap(15);
               },
             ),
     );

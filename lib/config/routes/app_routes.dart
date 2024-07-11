@@ -15,5 +15,5 @@ final appRoutes = [
     path: RouteLocation.createTask,
     parentNavigatorKey: navigationKey,
     builder: CreateTaskScreen.builder,
-  )
+  ),
 ];
