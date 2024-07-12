@@ -9,11 +9,13 @@ class ToDoApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final routeConfig = ref.watch(routesProvider);
+    final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
     return  MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       routerConfig: routeConfig,
+      scaffoldMessengerKey: scaffoldMessengerKey,
     );
   } 
 }

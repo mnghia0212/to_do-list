@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/data/data.dart';
@@ -10,11 +12,21 @@ class AppAlerts {
 
   static displaySnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.black,
-        content: Text(
-          message,
-          style: context.textTheme.bodyLarge?.copyWith(color: Colors.white),
-        )));
+      backgroundColor: Colors.black,
+      content: Text(
+        message,
+        style: context.textTheme.bodyLarge?.copyWith(color: Colors.white),
+      ),
+      action: SnackBarAction(
+        label: "Dismiss",
+        onPressed: () {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        }
+      ),
+      duration: const Duration(
+        seconds: 1
+      ),
+    ));
   }
 
   static Future<void> showAlertDeleteDialog({

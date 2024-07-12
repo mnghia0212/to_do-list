@@ -72,11 +72,11 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   DisplayWhiteText(
                     text: "Hi, today is ${DateFormat.yMMMd().format(DateTime.now())}",
-                    fontSize: 17,
+                    fontSize: 15,
                   ),
                   const DisplayWhiteText(
                     text: "My Todo List",
-                    fontSize: 45,
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
                   ),
                   const Gap(5),
