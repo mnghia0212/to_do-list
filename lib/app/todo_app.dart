@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:todo_app/config/routes/routes_provider.dart';
+import 'package:todo_app/utils/utils.dart';
+
 
 class ToDoApp extends ConsumerWidget {
   const ToDoApp({super.key});
@@ -9,8 +11,7 @@ class ToDoApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final routeConfig = ref.watch(routesProvider);
-    final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
+    
     return  MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,

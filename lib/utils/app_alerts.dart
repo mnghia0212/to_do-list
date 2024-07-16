@@ -1,33 +1,32 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/data/data.dart';
 import 'package:todo_app/providers/providers.dart';
-import 'package:todo_app/utils/extensions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/utils/utils.dart';
 
 class AppAlerts {
-  AppAlerts._();
-
-  static displaySnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  static displaySnackBar(String message) {
+    scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
       backgroundColor: Colors.black,
       content: Text(
         message,
-        style: context.textTheme.bodyLarge?.copyWith(color: Colors.white),
+        style: scaffoldMessengerKey.currentContext?.textTheme.bodyLarge?.copyWith(color: Colors.white),
       ),
       action: SnackBarAction(
         label: "Dismiss",
         onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
         }
       ),
       duration: const Duration(
-        seconds: 1
+        seconds: 2,
       ),
     ));
   }
+
+
 
   static Future<void> showAlertDeleteDialog({
     required BuildContext context,
@@ -42,10 +41,7 @@ class AppAlerts {
       onPressed: () async {
         await ref.read(taskProvider.notifier).deleteTask(task).then(
           (value) {
-            displaySnackBar(
-              context,
-              '${task.title} deleted successfully',
-            );
+            displaySnackBar('${task.title} deleted successfully');
             //to ignore the dialog
             context.pop();
           },
