@@ -16,7 +16,6 @@ class ToDoApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       routerConfig: routeConfig,
-      scaffoldMessengerKey: scaffoldMessengerKey,
     );
   } 
 }

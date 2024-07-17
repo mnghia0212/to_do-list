@@ -21,6 +21,8 @@ dependencies:
   go_router: ^14.2.0
   google_fonts: ^6.2.0
   path: ^1.8.3
+  another_flushbar: ^1.12.30
+  flutter_slidable: ^3.1.1
 
 dev_dependencies:
   flutter_test:

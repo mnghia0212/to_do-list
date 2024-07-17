@@ -40,12 +40,12 @@ class TaskTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(task.title,
-                    style: style.labelLarge?.copyWith(
+                    style: style.titleMedium?.copyWith(
                         decoration: textDecoration,
                         fontWeight: FontWeight.bold)),
                 Text(task.date,
                     style:
-                        style.labelLarge?.copyWith(decoration: textDecoration)),
+                        style.bodyMedium?.copyWith(decoration: textDecoration)),
               ],
             ),
           ),

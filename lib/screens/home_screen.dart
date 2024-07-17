@@ -57,6 +57,7 @@ class HomeScreen extends ConsumerWidget {
     final deviceSize = context.deviceSize;
     final taskState = ref.watch(taskProvider);
     final inCompletedTasks = _incompletedTask(taskState.tasks, ref);
+    final pinTasks = 
     final selectedDate = ref.watch(dateProvider);
     return Stack(
       children: [
@@ -101,7 +102,7 @@ class HomeScreen extends ConsumerWidget {
                     Row(
                       children: [
                         const DisplayWhiteText(
-                          text: "Filter by date: ",
+                          text: "Filter: ",
                           fontSize: 15,
                         ),
                         const Gap(5),
@@ -172,4 +173,19 @@ class HomeScreen extends ConsumerWidget {
     }
     return filteredTask;
   }
+
+  // List<Tasks> pinnedTasks(List<Tasks> tasks, WidgetRef ref) {
+  //   final pin = ref.watch(taskProvider);
+  //   final List<Tasks> pinnedTasks = [];
+
+  //   for (var task in tasks) {
+  //     if (!task.isCompleted) {
+  //       final isTaskDay = Helpers.isTaskFromSelectedDate(task, date);
+  //       if (isTaskDay) {
+  //         filteredTask.add(task);
+  //       }
+  //     }
+  //   }
+  //   return pinnedTasks;
+  // }
 }
