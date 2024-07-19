@@ -39,6 +39,17 @@ class TaskNotifier extends StateNotifier<TaskState> {
     }
   }
 
+  Future<void> pinTask(Tasks task) async {
+    try {
+      final isPinned = !task.isPinned;
+      final pinTask = task.copyWith(isPinned: isPinned);
+      await _repository.pinTask(pinTask);
+      getTasks();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   void getTasks() async {
     try {
       final tasks = await _repository.getAllTasks();

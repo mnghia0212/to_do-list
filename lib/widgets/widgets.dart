@@ -7,3 +7,4 @@ export 'task_tile.dart';
 export 'common_textfield.dart';
 export 'select_date_time.dart';
 export 'select_category.dart';
+export 'display_pinned_tasks.dart';

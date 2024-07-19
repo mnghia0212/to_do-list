@@ -9,6 +9,7 @@ class Tasks extends Equatable {
   final String time;
   final String date;
   final bool isCompleted;
+  final bool isPinned;
   final TaskCategories category;
 
   const Tasks({
@@ -18,6 +19,7 @@ class Tasks extends Equatable {
     required this.time,
     required this.date,
     required this.isCompleted,
+    required this.isPinned,
     required this.category
   });
 
@@ -31,6 +33,7 @@ class Tasks extends Equatable {
       time,
       date,
       isCompleted,
+      isPinned,
     ];
   }
 
@@ -42,6 +45,7 @@ class Tasks extends Equatable {
       TaskKeys.time: time,
       TaskKeys.date: date,
       TaskKeys.isCompleted: isCompleted ? 1 : 0,
+      TaskKeys.isPinned: isPinned ? 1 : 0,
       TaskKeys.category: category.name,
     };
   }
@@ -53,7 +57,8 @@ class Tasks extends Equatable {
       note: map[TaskKeys.note],
       time: map[TaskKeys.time],
       date: map[TaskKeys.date],
-      isCompleted: map[TaskKeys.isCompleted] == 1 ? true : false ,
+      isCompleted: map[TaskKeys.isCompleted] == 1 ? true : false,
+      isPinned: map[TaskKeys.isPinned] == 1 ? true : false,
       category: TaskCategories.stringToCategory(map[TaskKeys.category]),
     );
   }
@@ -67,6 +72,7 @@ class Tasks extends Equatable {
     String? time,
     String? date,
     bool? isCompleted,
+    bool? isPinned,
     TaskCategories? category,
   }) {
     return Tasks(
@@ -76,6 +82,7 @@ class Tasks extends Equatable {
       time: time ?? this.time,
       date: date ?? this.date,
       isCompleted: isCompleted ?? this.isCompleted,
+      isPinned: isPinned ?? this.isPinned,
       category: category ?? this.category,
     );
   }

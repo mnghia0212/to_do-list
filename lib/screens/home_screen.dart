@@ -57,7 +57,6 @@ class HomeScreen extends ConsumerWidget {
     final deviceSize = context.deviceSize;
     final taskState = ref.watch(taskProvider);
     final inCompletedTasks = _incompletedTask(taskState.tasks, ref);
-    final pinTasks = 
     final selectedDate = ref.watch(dateProvider);
     return Stack(
       children: [

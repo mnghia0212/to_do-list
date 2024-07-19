@@ -13,5 +13,5 @@ class DBKeys {
   static const String dateComlumn = TaskKeys.date;
   static const String categoryComlumn = TaskKeys.category;
   static const String isCompletedComlumn = TaskKeys.isCompleted;
-
+  static const String isPinnedComlumn = TaskKeys.isPinned;
 }

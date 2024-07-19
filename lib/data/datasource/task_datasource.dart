@@ -21,7 +21,11 @@ class TaskDatasource {
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, DBKeys.dbName);
-    return openDatabase(path, version: 1, onCreate: _onCreate);
+    return openDatabase(
+      path, 
+      version: 1, 
+      onCreate: _onCreate,
+    );
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -34,11 +38,12 @@ class TaskDatasource {
         ${DBKeys.timeComlumn} TEXT,
         ${DBKeys.dateComlumn} TEXT,
         ${DBKeys.categoryComlumn} TEXT,
-        ${DBKeys.isCompletedComlumn} INTEGER
+        ${DBKeys.isCompletedComlumn} INTEGER,
+        ${DBKeys.isPinnedComlumn} INTEGER
       )
       ''');
     } catch (e) {
-      print("Error creating table: $e");
+        print("Error creating table: $e");
       rethrow;
     }
   }
@@ -64,6 +69,18 @@ class TaskDatasource {
     return db.transaction((txn) async {
       return await txn.update(DBKeys.dbTable, task.toJson(),
           where: 'id =?', whereArgs: [task.id]);
+    });
+  }
+  
+  Future<int> pinTask(Tasks task) async {
+    final db = await database;
+    return db.transaction((txn) async {
+      return await txn.update(
+        DBKeys.dbTable,
+        {DBKeys.isPinnedComlumn: task.isPinned ? 1 : 0},
+        where: '${DBKeys.idColumn} = ?',
+        whereArgs: [task.id],
+      );
     });
   }
 

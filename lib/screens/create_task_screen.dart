@@ -91,7 +91,8 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
           time: Helpers.timeToString(time),
           date: DateFormat.yMMMd().format(date),
           category: category,
-          isCompleted: false);
+          isCompleted: false,
+          isPinned: false);
 
       await ref.read(taskProvider.notifier).createTask(task).then((value) {
         context.pop(RouteLocation.home);

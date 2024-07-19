@@ -49,6 +49,12 @@ class TaskTile extends StatelessWidget {
               ],
             ),
           ),
+          if(task.isPinned)
+            const Expanded(
+              child: Icon(
+                Icons.star_border_purple500,
+              )
+            ),
           Checkbox(value: task.isCompleted, onChanged: onCompleted)
         ],
       ),
