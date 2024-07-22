@@ -95,7 +95,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
           isPinned: false);
 
       await ref.read(taskProvider.notifier).createTask(task).then((value) {
-        context.pop(RouteLocation.home);
+        context.pop(RouteLocation.bottomNavigator);
         AppAlerts.showFlushBar(
           context,
           "New todo task created",

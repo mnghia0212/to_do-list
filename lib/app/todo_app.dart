@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:todo_app/config/routes/routes_provider.dart';
-import 'package:todo_app/utils/utils.dart';
 
 
 class ToDoApp extends ConsumerWidget {
