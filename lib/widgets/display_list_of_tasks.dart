@@ -11,10 +11,14 @@ import 'package:todo_app/data/data.dart';
 
 class DisplayListOfTasks extends ConsumerWidget {
   const DisplayListOfTasks(
-      {super.key, required this.tasks, this.isCompletedTasks = false});
+      {super.key,
+      required this.tasks,
+      required this.backgroundColor,
+      this.isCompletedTasks = false});
 
   final List<Tasks> tasks;
   final bool isCompletedTasks;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,6 +29,7 @@ class DisplayListOfTasks extends ConsumerWidget {
     final unpinnedTasks = tasks.where((tasks) => !tasks.isPinned).toList();
 
     return CommonContainer(
+      backgroundColor: backgroundColor,
       child: tasks.isEmpty
           ? Center(
               child: Text(
@@ -33,140 +38,138 @@ class DisplayListOfTasks extends ConsumerWidget {
               ),
             )
           : Column(
-            children: [
-              if(!isCompletedTasks)
-                 DisplayPinnedTasks(tasks: tasks),
-              ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                itemCount: unpinnedTasks.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final task = unpinnedTasks[index];
-              
-                  return InkWell(
-                      onTap: () async {
-                        //TODO-show task details
-                        await showModalBottomSheet(
-                            context: context,
-                            builder: (ctx) {
-                              return TaskDetails(task: task);
-                            });
-                      },
-                      //TODO-delete task
-                      child: Slidable(
-                          key: UniqueKey(),
-                          startActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            dismissible:
-                                DismissiblePane(onDismissed: () async {
-                              await ref
-                                  .read(taskProvider.notifier)
-                                  .updateTask(task)
-                                  .then((value) {
-                                AppAlerts.showFlushBar(
-                                    context,
-                                    task.isCompleted
-                                        ? '${task.title} incompleted'
-                                        : '${task.title} completed',
-                                    AlertType.info);
+              children: [
+                if (!isCompletedTasks) DisplayPinnedTasks(tasks: tasks),
+                ListView.separated(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  itemCount: unpinnedTasks.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final task = unpinnedTasks[index];
+
+                    return InkWell(
+                        onTap: () async {
+                          //TODO-show task details
+                          await showModalBottomSheet(
+                              context: context,
+                              builder: (ctx) {
+                                return TaskDetails(task: task);
                               });
-                            }),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) async {
-                                  await ref
-                                      .read(taskProvider.notifier)
-                                      .updateTask(task)
-                                      .then((value) {
-                                    AppAlerts.showFlushBar(
-                                        context,
-                                        task.isCompleted
-                                            ? '${task.title} incompleted'
-                                            : '${task.title} completed',
-                                        AlertType.info);
-                                  });
-                                },
-                                backgroundColor: Colors.greenAccent,
-                                foregroundColor: Colors.black,
-                                icon: task.isCompleted
-                                    ? Icons.close
-                                    : Icons.check,
-                              ),
-                            ],
-                          ),
-                          endActionPane: ActionPane(
-                              motion: const DrawerMotion(),
-                              dismissible: DismissiblePane(
-                                onDismissed: () async {
-                                  await ref
-                                      .read(taskProvider.notifier)
-                                      .deleteTask(task)
-                                      .then(
-                                    (value) {
-                                      AppAlerts.showFlushBar(
-                                          context,
-                                          '${task.title} deleted successfully',
-                                          AlertType.success);
-                                    },
-                                  );
-                                },
-                              ),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    ref
-                                        .read(taskProvider.notifier)
-                                        .pinTask(task);
-                                    AppAlerts.showFlushBar(
+                        },
+                        //TODO-delete task
+                        child: Slidable(
+                            key: UniqueKey(),
+                            startActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              dismissible:
+                                  DismissiblePane(onDismissed: () async {
+                                await ref
+                                    .read(taskProvider.notifier)
+                                    .updateTask(task)
+                                    .then((value) {
+                                  AppAlerts.showFlushBar(
                                       context,
-                                      "${task.title} pinned",
-                                      AlertType.info
-                                    );
-                                  },
-                                  backgroundColor: Colors.amber,
-                                  foregroundColor: Colors.black,
-                                  icon: Icons.star_outline,
-                                ),
+                                      task.isCompleted
+                                          ? '${task.title} incompleted'
+                                          : '${task.title} completed',
+                                      AlertType.info);
+                                });
+                              }),
+                              children: [
                                 SlidableAction(
                                   onPressed: (context) async {
                                     await ref
                                         .read(taskProvider.notifier)
-                                        .deleteTask(task)
+                                        .updateTask(task)
                                         .then((value) {
                                       AppAlerts.showFlushBar(
                                           context,
-                                          '${task.title} deleted successfully',
-                                          AlertType.success);
+                                          task.isCompleted
+                                              ? '${task.title} incompleted'
+                                              : '${task.title} completed',
+                                          AlertType.info);
                                     });
                                   },
-                                  backgroundColor: Colors.redAccent,
+                                  backgroundColor: Colors.greenAccent,
                                   foregroundColor: Colors.black,
-                                  icon: Icons.delete_outline,
+                                  icon: task.isCompleted
+                                      ? Icons.close
+                                      : Icons.check,
                                 ),
-                              ]),
-                          child: TaskTile(
-                            task: task,
-                            onCompleted: (value) async {
-                              await ref
-                                  .read(taskProvider.notifier)
-                                  .updateTask(task)
-                                  .then((value) {
-                                AppAlerts.showFlushBar(
-                                    context,
-                                    task.isCompleted
-                                        ? '${task.title} incompleted'
-                                        : '${task.title} completed',
-                                    AlertType.info);
-                              });
-                            },
-                          )));
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Gap(17);
-                },
-              ),
-            ],
-          ),
+                              ],
+                            ),
+                            endActionPane: ActionPane(
+                                motion: const DrawerMotion(),
+                                dismissible: DismissiblePane(
+                                  onDismissed: () async {
+                                    await ref
+                                        .read(taskProvider.notifier)
+                                        .deleteTask(task)
+                                        .then(
+                                      (value) {
+                                        AppAlerts.showFlushBar(
+                                            context,
+                                            '${task.title} deleted successfully',
+                                            AlertType.success);
+                                      },
+                                    );
+                                  },
+                                ),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      ref
+                                          .read(taskProvider.notifier)
+                                          .pinTask(task);
+                                      AppAlerts.showFlushBar(
+                                          context,
+                                          "${task.title} pinned",
+                                          AlertType.info);
+                                    },
+                                    backgroundColor: Colors.amber,
+                                    foregroundColor: Colors.black,
+                                    icon: Icons.star_outline,
+                                  ),
+                                  SlidableAction(
+                                    onPressed: (context) async {
+                                      await ref
+                                          .read(taskProvider.notifier)
+                                          .deleteTask(task)
+                                          .then((value) {
+                                        AppAlerts.showFlushBar(
+                                            context,
+                                            '${task.title} deleted successfully',
+                                            AlertType.success);
+                                      });
+                                    },
+                                    backgroundColor: Colors.redAccent,
+                                    foregroundColor: Colors.black,
+                                    icon: Icons.delete_outline,
+                                  ),
+                                ]),
+                            child: TaskTile(
+                              task: task,
+                              onCompleted: (value) async {
+                                await ref
+                                    .read(taskProvider.notifier)
+                                    .updateTask(task)
+                                    .then((value) {
+                                  AppAlerts.showFlushBar(
+                                      context,
+                                      task.isCompleted
+                                          ? '${task.title} incompleted'
+                                          : '${task.title} completed',
+                                      AlertType.info);
+                                });
+                              },
+                            )));
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Gap(17);
+                  },
+                ),
+              ],
+            ),
     );
   }
 }

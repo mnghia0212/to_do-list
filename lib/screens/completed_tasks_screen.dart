@@ -27,7 +27,10 @@ class CompletedTasksScreen extends ConsumerWidget {
         child: Column(
           children: [
             Expanded(
-              child: DisplayListOfTasks(tasks: completedTasks),
+              child: DisplayListOfTasks(
+                tasks: completedTasks, 
+                backgroundColor: context.colorScheme.primaryContainer
+              ),
             ),
             const Gap(5),
             Row(

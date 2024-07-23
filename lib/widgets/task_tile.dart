@@ -54,7 +54,7 @@ class TaskTile extends StatelessWidget {
               child: Icon(
                 Icons.push_pin,
               )
-            ),
+          ),
           Checkbox(value: task.isCompleted, onChanged: onCompleted)
         ],
       ),

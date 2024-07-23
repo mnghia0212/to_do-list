@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/config/routes/routes.dart';
 import 'package:todo_app/data/data.dart';
 import 'package:todo_app/providers/providers.dart';
-import 'package:todo_app/screens/screens.dart';
 import 'package:todo_app/utils/utils.dart';
 import 'package:todo_app/widgets/widgets.dart';
 
@@ -28,14 +27,17 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
               onPressed: () {
-                showSearch(
-                  context: context, 
-                  delegate: MySearchDelegate()
-                );
+                showSearch(context: context, delegate: TaskSearchdelegate(ref));
               },
               icon: const Icon(Icons.search))
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => context.push(RouteLocation.createTask),
+          splashColor: colors.primaryContainer,
+          tooltip: "Tap to create new task",
+          backgroundColor: colors.primary,
+          child: const Icon(Icons.add_task)),
       body: Stack(
         children: [
           Column(
@@ -109,19 +111,10 @@ class HomeScreen extends ConsumerWidget {
                       ),
                       const Gap(10),
                       SizedBox(
-                        height: deviceSize.height * 0.56,
+                        height: deviceSize.height * 0.59,
                         child: DisplayListOfTasks(
                           tasks: inCompletedTasks,
-                        ),
-                      ),
-                      const Gap(15),
-                      ElevatedButton(
-                        onPressed: () => context.push(RouteLocation.createTask),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 13),
-                          child: DisplayWhiteText(
-                            text: 'Add New Task',
-                          ),
+                          backgroundColor: colors.primaryContainer,
                         ),
                       ),
                     ],
@@ -151,28 +144,3 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class MySearchDelegate extends SearchDelegate {
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    // TODO: implement buildActions
-    throw UnimplementedError();
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
-    throw UnimplementedError();
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    throw UnimplementedError();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-    throw UnimplementedError();
-  }
-}
