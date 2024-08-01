@@ -36,8 +36,11 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     return Scaffold(
       appBar: AppBar(
         // actions: const [],
-        title: const DisplayWhiteText(
-            text: "Add a new task", fontSize: 25, fontWeight: FontWeight.bold),
+        title: const DisplayText(
+            text: "Add a new task", 
+            fontSize: 25, 
+            fontWeight: FontWeight.bold,
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -68,7 +71,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                   onPressed: _createTask,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 13),
-                    child: DisplayWhiteText(text: "Save"),
+                    child: DisplayText(text: "Save"),
                   ))
             ],
           ),

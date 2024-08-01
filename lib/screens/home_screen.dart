@@ -50,12 +50,12 @@ class HomeScreen extends ConsumerWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      DisplayWhiteText(
+                      DisplayText(
                         text:
                             "Hi, today is ${DateFormat.yMMMd().format(DateTime.now())}",
                         fontSize: 15,
                       ),
-                      const DisplayWhiteText(
+                      const DisplayText(
                         text: "My Todo List",
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
@@ -79,7 +79,7 @@ class HomeScreen extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          const DisplayWhiteText(
+                          const DisplayText(
                             text: "Filter: ",
                             fontSize: 15,
                           ),
@@ -94,7 +94,7 @@ class HomeScreen extends ConsumerWidget {
                               children: [
                                 InkWell(
                                   onTap: () => Helpers.selectDate(context, ref),
-                                  child: DisplayWhiteText(
+                                  child: DisplayText(
                                     text:
                                         DateFormat.yMMMd().format(selectedDate),
                                     fontSize: 15,
@@ -112,10 +112,7 @@ class HomeScreen extends ConsumerWidget {
                       const Gap(10),
                       SizedBox(
                         height: deviceSize.height * 0.59,
-                        child: DisplayListOfTasks(
-                          tasks: inCompletedTasks,
-                          backgroundColor: colors.primaryContainer,
-                        ),
+                        child: DisplayPinnedTasks(tasks: inCompletedTasks)
                       ),
                     ],
                   ),

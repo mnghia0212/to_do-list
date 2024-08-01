@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/utils/extensions.dart';
 
-class DisplayWhiteText extends StatelessWidget {
-  const DisplayWhiteText(
-      {super.key, required this.text, this.fontSize, this.fontWeight});
+class DisplayText extends StatelessWidget {
+  const DisplayText(
+      {super.key, required this.text, this.fontSize, this.fontWeight, this.color = Colors.white});
 
   final String text;
+  final Color? color;
   final double? fontSize;
   final FontWeight? fontWeight;
 
@@ -14,7 +15,7 @@ class DisplayWhiteText extends StatelessWidget {
     return Text(
       text,
       style: context.textTheme.headlineSmall?.copyWith(
-          color: context.colorScheme.surface,
+          color: color,
           fontSize: fontSize,
           fontWeight: fontWeight ?? FontWeight.bold),
     );

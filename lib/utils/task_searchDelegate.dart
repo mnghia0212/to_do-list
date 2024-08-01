@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:todo_app/data/data.dart';
 import 'package:todo_app/providers/providers.dart';
+import 'package:todo_app/widgets/display_list_of_tasks.dart';
 import 'package:todo_app/widgets/task_tile.dart';
 
 class TaskSearchdelegate extends SearchDelegate {
@@ -35,21 +36,13 @@ class TaskSearchdelegate extends SearchDelegate {
     List<Tasks> matchTasks = getMatchTask();
 
     return matchTasks.isEmpty
-        ? const Center(child: 
-            Text("No task found")
-        )
-        : ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            itemCount: matchTasks.length,
-            itemBuilder: (context, index) {
-              final task = matchTasks[index];
-
-              return TaskTile(task: task);
-            },
-            separatorBuilder: (context, index) {
-              return const Gap(17);
-            },
-          );
+        ? const Center(child: Text("No task found"))
+        :  Padding(
+            padding: const EdgeInsets.all(10),
+            child: DisplayListOfTasks(
+              tasks: matchTasks.where((task) => !task.isCompleted).toList(),
+              ),
+        );
   }
 
   @override
@@ -58,18 +51,12 @@ class TaskSearchdelegate extends SearchDelegate {
 
     return matchTasks.isEmpty
         ? const Center(child: const Text("No task found"))
-        : ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            itemCount: matchTasks.length,
-            itemBuilder: (context, index) {
-              final task = matchTasks[index];
-
-              return TaskTile(task: task);
-            },
-            separatorBuilder: (context, index) {
-              return const Gap(17);
-            },
-          );
+        : Padding(
+            padding: const EdgeInsets.all(10),
+            child: DisplayListOfTasks(
+              tasks: matchTasks.where((task) => !task.isCompleted).toList(),
+              ),
+        );
   }
 
   List<Tasks> getMatchTask() {

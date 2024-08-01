@@ -10,7 +10,7 @@ class DeletedTasksScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const DisplayWhiteText(
+        title: const DisplayText(
           text: "Deleted Tasks",
           fontSize: 20,
           fontWeight: FontWeight.bold,
