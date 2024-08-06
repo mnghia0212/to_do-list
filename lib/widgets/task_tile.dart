@@ -19,45 +19,45 @@ class TaskTile extends StatelessWidget {
     final textDecoration =
         task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
-      child: Row(
-        children: [
-         
-          CircleContainer(
-            color: task.category.color.withOpacity(backgroundOpacity),
-            child: Center(
-              child: Icon(
-                task.category.icon,
-              ),
+    return Row(
+      children: [
+        Checkbox(value: task.isCompleted, onChanged: onCompleted),
+        CircleContainer(
+          color: task.category.color.withOpacity(backgroundOpacity),
+          child: Center(
+            child: Icon(
+              task.category.icon,
             ),
           ),
-
-          const Gap(15),
-
+        ),
+    
+        const Gap(15),
+    
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(task.title,
+                  style: style.titleMedium?.copyWith(
+                      decoration: textDecoration,
+                      fontWeight: FontWeight.bold)),
+              Text(task.date,
+                  style:
+                      style.bodyMedium?.copyWith(decoration: textDecoration)),
+            ],
+          ),
+        ),
+        const Gap(80),
+        if(task.isPinned && !task.isCompleted)
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(task.title,
-                    style: style.titleMedium?.copyWith(
-                        decoration: textDecoration,
-                        fontWeight: FontWeight.bold)),
-                Text(task.date,
-                    style:
-                        style.bodyMedium?.copyWith(decoration: textDecoration)),
-              ],
-            ),
-          ),
-          if(task.isPinned)
-            const Expanded(
-              child: Icon(
-                Icons.push_pin,
-              )
-          ),
-          Checkbox(value: task.isCompleted, onChanged: onCompleted)
-        ],
-      ),
+            child: Image.asset(
+              'lib/assets/icon/push-pin.png',
+              width: 50,
+              height: 50,
+            )
+        ),
+        
+      ],
     );
   }
 }

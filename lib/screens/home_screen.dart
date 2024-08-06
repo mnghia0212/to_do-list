@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/config/routes/routes.dart';
 import 'package:todo_app/data/data.dart';
 import 'package:todo_app/providers/providers.dart';
+import 'package:todo_app/utils/helpers.dart';
 import 'package:todo_app/utils/utils.dart';
 import 'package:todo_app/widgets/widgets.dart';
 
@@ -19,17 +20,37 @@ class HomeScreen extends ConsumerWidget {
     final colors = context.colorScheme;
     final deviceSize = context.deviceSize;
     final taskState = ref.watch(taskProvider);
-    final inCompletedTasks = _incompletedTask(taskState.tasks, ref);
+    //final inCompletedTasks = _incompleteTask(taskState.tasks, ref);
     final selectedDate = ref.watch(dateProvider);
+
+    final filteredTasks = selectedDate != null
+     ? _filterTaskByDate(taskState.tasks, selectedDate)
+     : taskState.tasks;
     return Scaffold(
+      
       appBar: AppBar(
-        title: const Text("Home"),
+        title: DisplayText(
+          text: "Hi, today is ${DateFormat.yMMMd().format(DateTime.now())}",
+          fontWeight: FontWeight.normal,
+          fontSize: 18,
+        ) ,
+        centerTitle: true,
+        backgroundColor: colors.primaryFixed,
         actions: [
-          IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: TaskSearchdelegate(ref));
-              },
-              icon: const Icon(Icons.search))
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                            color: const Color.fromARGB(60, 212, 204, 204),
+              ),
+              child: IconButton(
+                  onPressed: () {
+                    showSearch(context: context, delegate: TaskSearchdelegate(ref));
+                  },
+                  icon: const Icon(Icons.search)),
+            ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -43,79 +64,69 @@ class HomeScreen extends ConsumerWidget {
           Column(
             children: [
               Container(
-                padding: const EdgeInsets.only(top: 50),
                 width: deviceSize.width,
-                height: deviceSize.height * 0.3,
+                height: deviceSize.height * 0.25,
                 color: colors.primaryFixed,
-                child: Column(
+                child: const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      DisplayText(
-                        text:
-                            "Hi, today is ${DateFormat.yMMMd().format(DateTime.now())}",
-                        fontSize: 15,
-                      ),
-                      const DisplayText(
-                        text: "My Todo List",
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      const Gap(5),
-                    ]),
+                    DisplayText(
+                      text: "My todo list",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 45,
+                    ) ,
+                ]),
               )
             ],
           ),
           Positioned(
-            top: 130,
+            top: 80,
             left: 0,
             right: 0,
             child: SafeArea(
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 17),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        children: [
-                          const DisplayText(
-                            text: "Filter: ",
-                            fontSize: 15,
-                          ),
-                          const Gap(5),
-                          Container(
-                            padding: const EdgeInsets.all(7),
-                            decoration: BoxDecoration(
-                                color: Colors.blueGrey,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () => Helpers.selectDate(context, ref),
-                                  child: DisplayText(
-                                    text:
-                                        DateFormat.yMMMd().format(selectedDate),
-                                    fontSize: 15,
-                                  ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 17),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const DisplayText(
+                          text: "Filter: ",
+                          fontSize: 15,
+                        ),
+                        const Gap(5),
+                        Container(
+                          padding: const EdgeInsets.all(7),
+                          decoration: BoxDecoration(
+                              color: Colors.blueGrey,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () => Helpers.selectDate(context, ref),
+                                child: DisplayText(
+                                  text:
+                                    selectedDate != null
+                                      ? Helpers.dateFormatter(selectedDate)
+                                      : "Select date",
+                                  fontSize: 15,
                                 ),
-                                const Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.white,
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      const Gap(10),
-                      SizedBox(
-                        height: deviceSize.height * 0.59,
-                        child: DisplayPinnedTasks(tasks: inCompletedTasks)
-                      ),
-                    ],
-                  ),
+                              ),
+                              const Icon(
+                                Icons.arrow_drop_down,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    const Gap(10),
+                    DisplayPinnedTasks(tasks: filteredTasks
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -125,13 +136,12 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  List<Tasks> _incompletedTask(List<Tasks> tasks, WidgetRef ref) {
-    final date = ref.watch(dateProvider);
+  List<Tasks> _filterTaskByDate(List<Tasks> tasks, DateTime selectedDate) {
     final List<Tasks> filteredTask = [];
-
+    
     for (var task in tasks) {
       if (!task.isCompleted) {
-        final isTaskDay = Helpers.isTaskFromSelectedDate(task, date);
+        final isTaskDay = Helpers.isTaskFromSelectedDate(task, selectedDate);
         if (isTaskDay) {
           filteredTask.add(task);
         }

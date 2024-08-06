@@ -40,7 +40,7 @@ class TaskSearchdelegate extends SearchDelegate {
         :  Padding(
             padding: const EdgeInsets.all(10),
             child: DisplayListOfTasks(
-              tasks: matchTasks.where((task) => !task.isCompleted).toList(),
+              tasks: matchTasks,
               ),
         );
   }
@@ -50,11 +50,11 @@ class TaskSearchdelegate extends SearchDelegate {
     List<Tasks> matchTasks = getMatchTask();
 
     return matchTasks.isEmpty
-        ? const Center(child: const Text("No task found"))
+        ? const Center(child: Text("No task found"))
         : Padding(
             padding: const EdgeInsets.all(10),
             child: DisplayListOfTasks(
-              tasks: matchTasks.where((task) => !task.isCompleted).toList(),
+              tasks: matchTasks,
               ),
         );
   }

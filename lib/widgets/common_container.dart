@@ -11,7 +11,6 @@ class CommonContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = context.deviceSize;
-    final colors = context.colorScheme;
 
     return Container(
         width: deviceSize.width,

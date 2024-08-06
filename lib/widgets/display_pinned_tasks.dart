@@ -19,6 +19,7 @@ class DisplayPinnedTasks extends ConsumerWidget {
     final unpinnedTasks = tasks.where((tasks) => !tasks.isPinned).toList();
 
     return CommonContainer(
+      height: context.deviceSize.height * 0.65,
       backgroundColor: context.colorScheme.primaryContainer,
       child: tasks.isEmpty ?
       const Center(child: DisplayText(
@@ -26,12 +27,15 @@ class DisplayPinnedTasks extends ConsumerWidget {
         color: Colors.black,
         fontSize: 20,
       )) :
-      Column(
-        children: [
-          DisplayListOfTasks(tasks: pinnedTasks),
-          if(pinnedTasks.isNotEmpty) const Divider(thickness: 2),
-          DisplayListOfTasks(tasks: unpinnedTasks)
-        ],
+      SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            DisplayListOfTasks(tasks: pinnedTasks, isPinnedTasks: true),
+            if(pinnedTasks.isNotEmpty) const Divider(thickness: 2),
+            DisplayListOfTasks(tasks: unpinnedTasks, isPinnedTasks: true)
+          ],
+        ),
       )
     );
   }
