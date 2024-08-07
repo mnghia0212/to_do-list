@@ -43,10 +43,10 @@ class CompletedTasksScreen extends ConsumerWidget {
             ),
             const Gap(5),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Number of completed tasks: ${tasks.where((task) => task.isCompleted).length}",
+                  "Done tasks: ${tasks.where((task) => task.isCompleted).length}",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const Gap(3),

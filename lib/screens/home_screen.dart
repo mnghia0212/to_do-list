@@ -20,12 +20,13 @@ class HomeScreen extends ConsumerWidget {
     final colors = context.colorScheme;
     final deviceSize = context.deviceSize;
     final taskState = ref.watch(taskProvider);
-    //final inCompletedTasks = _incompleteTask(taskState.tasks, ref);
     final selectedDate = ref.watch(dateProvider);
+    final inCompletedTasks = _filterTaskByDate(taskState.tasks, selectedDate);
 
-    final filteredTasks = selectedDate != null
-     ? _filterTaskByDate(taskState.tasks, selectedDate)
-     : taskState.tasks;
+
+    // final filteredTasks = selectedDate != null
+    //  ? _filterTaskByDate(taskState.tasks, selectedDate)
+    //  : taskState.tasks;
     return Scaffold(
       
       appBar: AppBar(
@@ -53,12 +54,6 @@ class HomeScreen extends ConsumerWidget {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => context.push(RouteLocation.createTask),
-          splashColor: colors.primaryContainer,
-          tooltip: "Tap to create new task",
-          backgroundColor: colors.primary,
-          child: const Icon(Icons.add_task)),
       body: Stack(
         children: [
           Column(
@@ -80,7 +75,7 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
           Positioned(
-            top: 80,
+            top: 75,
             left: 0,
             right: 0,
             child: SafeArea(
@@ -108,9 +103,8 @@ class HomeScreen extends ConsumerWidget {
                                 onTap: () => Helpers.selectDate(context, ref),
                                 child: DisplayText(
                                   text:
-                                    selectedDate != null
-                                      ? Helpers.dateFormatter(selectedDate)
-                                      : "Select date",
+                                  Helpers.dateFormatter(selectedDate),
+                                
                                   fontSize: 15,
                                 ),
                               ),
@@ -124,8 +118,7 @@ class HomeScreen extends ConsumerWidget {
                       ],
                     ),
                     const Gap(10),
-                    DisplayPinnedTasks(tasks: filteredTasks
-                    ),
+                    DisplayPinnedTasks(tasks: inCompletedTasks),
                   ],
                 ),
               ),
