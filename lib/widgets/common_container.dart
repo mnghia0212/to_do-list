@@ -13,6 +13,7 @@ class CommonContainer extends StatelessWidget {
     final deviceSize = context.deviceSize;
 
     return Container(
+        padding: const EdgeInsets.all(10),
         width: deviceSize.width,
         height: height,
         decoration: BoxDecoration(

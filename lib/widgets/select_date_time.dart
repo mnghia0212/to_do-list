@@ -20,7 +20,9 @@ class SelectDateTime extends ConsumerWidget {
         Expanded(
             child: CommonTextfield(
           labelName: "Date:",
-          hintText: DateFormat.yMMMd().format(date),
+          hintText: date != null 
+            ? DateFormat.yMMMd().format(date)
+            : "Select Date", // Hiển thị thông báo nếu date là null
           suffixIcon: IconButton(
               onPressed: () => selectDate(context, ref),
               icon: const FaIcon(FontAwesomeIcons.calendar)),
@@ -55,7 +57,7 @@ void selectTime(BuildContext context, WidgetRef ref) async {
 }
 
 void selectDate(BuildContext context, WidgetRef ref) async {
-  final initialDate = ref.read(dateProvider);
+  final initialDate = ref.read(dateProvider) ?? DateTime.now(); // Sử dụng ngày hiện tại nếu null
 
   DateTime? pickedDate = await showDatePicker(
       context: context,

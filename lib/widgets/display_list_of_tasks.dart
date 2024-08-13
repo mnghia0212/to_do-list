@@ -36,7 +36,6 @@ class DisplayListOfTasks extends ConsumerWidget {
     //       ):
     final completedTasks = tasks.where((task) => task.isCompleted).toList();
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       itemCount: isCompletedTasks ? completedTasks.length : tasks.length,
       shrinkWrap: true,
       physics: isPinnedTasks
@@ -114,22 +113,23 @@ class DisplayListOfTasks extends ConsumerWidget {
                       },
                     ),
                     children: [
-                      SlidableAction(
-                        onPressed: (context) {
-                          ref.read(taskProvider.notifier).pinTask(task);
-                          AppAlerts.showFlushBar(
-                              context,
-                              task.isPinned
-                                  ? "${task.title} unpinned"
-                                  : "${task.title} pinned",
-                              AlertType.info);
-                        },
-                        backgroundColor: Colors.amber,
-                        foregroundColor: Colors.black,
-                        icon: task.isPinned
-                            ? Icons.push_pin
-                            : Icons.push_pin_outlined,
-                      ),
+                      if(!task.isCompleted)
+                        SlidableAction(
+                          onPressed: (context) {
+                            ref.read(taskProvider.notifier).pinTask(task);
+                            AppAlerts.showFlushBar(
+                                context,
+                                task.isPinned
+                                    ? "${task.title} unpinned"
+                                    : "${task.title} pinned",
+                                AlertType.info);
+                          },
+                          backgroundColor: Colors.amber,
+                          foregroundColor: Colors.black,
+                          icon: task.isPinned
+                              ? Icons.push_pin
+                              : Icons.push_pin_outlined,
+                        ),
                       SlidableAction(
                         onPressed: (context) async {
                           await ref

@@ -28,9 +28,11 @@ class BottomNavigator extends ConsumerWidget {
             backgroundColor: colors.primary,
             child: const Icon(Icons.add)
         ),
+
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           elevation: 10,
+          showUnselectedLabels: false,
           currentIndex: currentIndex,
            onTap: (value) {
             if (value != 2) {

@@ -92,7 +92,9 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
           title: title,
           note: note,
           time: Helpers.timeToString(time),
-          date: DateFormat.yMMMd().format(date),
+          date: date != null 
+            ? DateFormat.yMMMd().format(date) 
+            : DateFormat.yMMMd().format(DateTime.now()),
           category: category,
           isCompleted: false,
           isPinned: false);
@@ -104,7 +106,6 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
           "New todo task created",
           AlertType.success
         );
-       
       });
     } else {
       AppAlerts.showFlushBar(
