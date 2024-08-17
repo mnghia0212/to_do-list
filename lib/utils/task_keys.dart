@@ -12,4 +12,5 @@ class TaskKeys {
   static const String category = "category";
   static const String isCompleted = "isCompleted";
   static const String isPinned = "isPinned";
+  static const String isDeleted = "isDeleted";
 }

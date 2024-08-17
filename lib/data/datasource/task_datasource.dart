@@ -39,7 +39,8 @@ class TaskDatasource {
         ${DBKeys.dateComlumn} TEXT,
         ${DBKeys.categoryComlumn} TEXT,
         ${DBKeys.isCompletedComlumn} INTEGER,
-        ${DBKeys.isPinnedComlumn} INTEGER
+        ${DBKeys.isPinnedComlumn} INTEGER,
+        ${DBKeys.isDeletedColumn} INTEGER
       )
       ''');
     } catch (e) {
@@ -59,8 +60,12 @@ class TaskDatasource {
   Future<int> deleteTask(Tasks task) async {
     final db = await database;
     return db.transaction((txn) async {
-      return await txn
-          .delete(DBKeys.dbTable, where: 'id =?', whereArgs: [task.id]);
+      return await txn.update(
+        DBKeys.dbTable, 
+        {DBKeys.isDeletedColumn: task.isDeleted ? 1 : 0},
+        where: '${DBKeys.idColumn} = ?',
+        whereArgs: [task.id]
+        );
     });
   }
 

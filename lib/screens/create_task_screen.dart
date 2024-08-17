@@ -89,15 +89,17 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
     if (title.isNotEmpty) {
       final task = Tasks(
-          title: title,
-          note: note,
-          time: Helpers.timeToString(time),
-          date: date != null 
-            ? DateFormat.yMMMd().format(date) 
-            : DateFormat.yMMMd().format(DateTime.now()),
-          category: category,
-          isCompleted: false,
-          isPinned: false);
+        title: title,
+        note: note,
+        time: Helpers.timeToString(time),
+        date: date != null 
+          ? DateFormat.yMMMd().format(date) 
+          : DateFormat.yMMMd().format(DateTime.now()),
+        category: category,
+        isCompleted: false,
+        isPinned: false,
+        isDeleted: false
+      );
 
       await ref.read(taskProvider.notifier).createTask(task).then((value) {
         context.pop(RouteLocation.bottomNavigator);

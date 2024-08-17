@@ -113,10 +113,10 @@ class HomeScreen extends ConsumerWidget {
                                   children: [
                                     const VerticalDivider(
                                       color: Colors.white,
-                                      width: 15,
+                                      width: 16,
                                       thickness: 0.5,
-                                      indent: 12,
-                                      endIndent: 12,
+                                      indent: 10,
+                                      endIndent: 10,
                                     ),
                                     SizedBox(
                                       width: 16,

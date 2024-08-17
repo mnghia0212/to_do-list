@@ -10,19 +10,20 @@ class Tasks extends Equatable {
   final String date;
   final bool isCompleted;
   final bool isPinned;
+  final bool isDeleted;
   final TaskCategories category;
 
-  const Tasks({
-    this.id,
-    required this.title,
-    required this.note,
-    required this.time,
-    required this.date,
-    required this.isCompleted,
-    required this.isPinned,
-    required this.category
+  const Tasks(
+      {this.id,
+      required this.title,
+      required this.note,
+      required this.time,
+      required this.date,
+      required this.isCompleted,
+      required this.isPinned,
+      required this.isDeleted,
+      required this.category
   });
-
 
   @override
   List<Object> get props {
@@ -34,6 +35,7 @@ class Tasks extends Equatable {
       date,
       isCompleted,
       isPinned,
+      isDeleted
     ];
   }
 
@@ -46,6 +48,7 @@ class Tasks extends Equatable {
       TaskKeys.date: date,
       TaskKeys.isCompleted: isCompleted ? 1 : 0,
       TaskKeys.isPinned: isPinned ? 1 : 0,
+      TaskKeys.isDeleted: isDeleted ? 1 : 0,
       TaskKeys.category: category.name,
     };
   }
@@ -59,11 +62,10 @@ class Tasks extends Equatable {
       date: map[TaskKeys.date],
       isCompleted: map[TaskKeys.isCompleted] == 1 ? true : false,
       isPinned: map[TaskKeys.isPinned] == 1 ? true : false,
+      isDeleted: map[TaskKeys.isDeleted] == 1 ? true : false,
       category: TaskCategories.stringToCategory(map[TaskKeys.category]),
     );
   }
-
-  
 
   Tasks copyWith({
     int? id,
@@ -73,6 +75,7 @@ class Tasks extends Equatable {
     String? date,
     bool? isCompleted,
     bool? isPinned,
+    bool? isDeleted,
     TaskCategories? category,
   }) {
     return Tasks(
@@ -83,6 +86,7 @@ class Tasks extends Equatable {
       date: date ?? this.date,
       isCompleted: isCompleted ?? this.isCompleted,
       isPinned: isPinned ?? this.isPinned,
+      isDeleted: isDeleted ?? this.isDeleted,
       category: category ?? this.category,
     );
   }
