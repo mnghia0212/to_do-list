@@ -48,4 +48,13 @@ class TaskRepositoryImpl implements TaskRepositories {
       throw '$e';
     }
   }
+
+  @override
+  Future<List<Tasks>> getDeletedTasks() async {
+    try {
+      return await _datasource.getDeletedTasks();
+    } catch (e) {
+      throw '$e';
+    }
+  }
 }

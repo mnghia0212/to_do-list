@@ -155,7 +155,7 @@ class HomeScreen extends ConsumerWidget {
   List<Tasks> _filterTaskByDate(List<Tasks> tasks, DateTime? selectedDate) {
     final List<Tasks> filteredTask = [];
 
-    final uncompletedTask = tasks.where((task) => !task.isCompleted).toList();
+    final uncompletedTask = tasks.where((task) => !task.isCompleted && !task.isDeleted).toList();
 
     if (selectedDate == null) {
       return uncompletedTask;

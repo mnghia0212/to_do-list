@@ -6,4 +6,5 @@ abstract class TaskRepositories {
   Future<void> updateTask(Tasks task);
   Future<void> pinTask(Tasks task);
   Future<List<Tasks>> getAllTasks();
+  Future<List<Tasks>> getDeletedTasks();
 }

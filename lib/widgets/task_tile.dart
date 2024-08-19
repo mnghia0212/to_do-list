@@ -33,19 +33,17 @@ class TaskTile extends StatelessWidget {
     
         const Gap(15),
     
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(task.title,
-                  style: style.titleMedium?.copyWith(
-                      decoration: textDecoration,
-                      fontWeight: FontWeight.bold)),
-              Text(task.date,
-                  style:
-                      style.bodyMedium?.copyWith(decoration: textDecoration)),
-            ],
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(task.title,
+                style: style.titleMedium?.copyWith(
+                    decoration: textDecoration,
+                    fontWeight: FontWeight.bold)),
+            Text(task.date,
+                style:
+                    style.bodyMedium?.copyWith(decoration: textDecoration)),
+          ],
         ),
         const Gap(80),
         if(task.isPinned && !task.isCompleted)

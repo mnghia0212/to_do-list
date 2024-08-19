@@ -1,1 +1,3 @@
+analyzer:
+  errors:
 include: package:flutter_lints/flutter.yaml

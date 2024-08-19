@@ -92,7 +92,26 @@ class TaskDatasource {
   Future<List<Tasks>> getAllTasks() async {
     final db = await database;
     final List<Map<String, dynamic>> data =
-        await db.query(DBKeys.dbTable, orderBy: "id DESC");
+        await db.query(
+          DBKeys.dbTable, 
+          orderBy: "id DESC"
+        );
+
+    return List.generate(
+      data.length, 
+      (index) => Tasks.fromJson(data[index])
+    );
+  }
+
+   Future<List<Tasks>> getDeletedTasks() async {
+    final db = await database;
+    final List<Map<String, dynamic>> data =
+        await db.query(
+          DBKeys.dbTable, 
+          where: '${DBKeys.isDeletedColumn} = ?',
+          whereArgs: [1],
+          orderBy: "id DESC"
+        );
 
     return List.generate(
       data.length, 
