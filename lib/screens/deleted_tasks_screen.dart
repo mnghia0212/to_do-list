@@ -30,33 +30,49 @@ class DeletedTasksScreen extends ConsumerWidget {
             final task = tasks[index];
             return TaskSlidable(
               task: task,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: context.colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      children: [
-                        CircleContainer(
-                          color: task.category.color.withOpacity(0.2),
-                          child: Center(
-                            child: Icon(
-                              task.category.icon,
+              child: InkWell(
+                onTap: () async {
+                  //TODO-show task details
+                  await showModalBottomSheet(
+                      context: context,
+                      builder: (ctx) {
+                        return TaskDetails(task: task);
+                      }
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: context.colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Row(
+                        children: [
+                          CircleContainer(
+                            color: task.category.color.withOpacity(0.2),
+                            child: Center(
+                              child: Icon(
+                                task.category.icon,
+                              ),
                             ),
                           ),
-                        ),
-                        const Gap(15),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(task.title),
-                            Text(task.date),
-                          ],
-                        ),
-                      ],
-                    )),
+                          const Gap(15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(task.title),
+                              Text(task.date),
+                            ],
+                          ),
+                          const Gap(170),
+                          if(task.isCompleted)
+                            const Icon(
+                              Icons.check_box
+                            )
+                        ],
+                      )),
+                ),
               ),
             );
           },

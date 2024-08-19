@@ -10,7 +10,10 @@ class CompletedTasksScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskProvider).tasks;
+    final tasks = ref.watch(taskProvider)
+                        .tasks
+                        .where((task) => task.isCompleted && !task.isDeleted)
+                        .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -35,10 +38,7 @@ class CompletedTasksScreen extends ConsumerWidget {
                         fontSize: 18,
                         color: Colors.black,
                       ))
-                    : DisplayListOfTasks(
-                        tasks: tasks,
-                        isCompletedTasks: true
-                      ),
+                    : DisplayListOfTasks(tasks: tasks),
               ),
             ),
             const Gap(5),
@@ -46,7 +46,7 @@ class CompletedTasksScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Done tasks: ${tasks.where((task) => task.isCompleted).length}",
+                  "Done tasks: ${tasks.length}",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const Gap(3),

@@ -23,14 +23,15 @@ class TaskSlidable extends ConsumerWidget {
                   (value) {
                     AppAlerts.showFlushBar(
                         context,
-                        '${task.title} deleted successfully',
+                        '${task.title} deleted',
                         AlertType.success);
                   },
                 );
               },
             ),
             children: [
-              if (!task.isCompleted || !task.isDeleted) SlidableAction(
+              if (!task.isCompleted && !task.isDeleted)
+                SlidableAction(
                   onPressed: (context) {
                     ref.read(taskProvider.notifier).pinTask(task);
                     AppAlerts.showFlushBar(
@@ -54,13 +55,15 @@ class TaskSlidable extends ConsumerWidget {
                       .then((value) {
                     AppAlerts.showFlushBar(
                         context,
-                        '${task.title} deleted successfully',
+                        task.isDeleted
+                            ? "${task.title} restored"
+                            : "${task.title} deleted",
                         AlertType.success);
                   });
                 },
                 backgroundColor: Colors.redAccent,
                 foregroundColor: Colors.black,
-                icon: task.isDeleted ? Icons.delete : Icons.delete_outline,
+                icon: task.isDeleted ? Icons.restart_alt : Icons.delete_outline,
               ),
             ]),
             child: child,

@@ -13,25 +13,22 @@ class DisplayListOfTasks extends ConsumerWidget {
   const DisplayListOfTasks(
       {super.key,
       required this.tasks,
-      this.isCompletedTasks = false,
       this.isPinnedTasks = false});
 
   final List<Tasks> tasks;
-  final bool isCompletedTasks;
   final bool isPinnedTasks;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final completedTasks = tasks.where((task) => task.isCompleted).toList();
 
     return ListView.separated(
-      itemCount: isCompletedTasks ? completedTasks.length : tasks.length,
+      itemCount: tasks.length,
       shrinkWrap: true,
       physics: isPinnedTasks
           ? const NeverScrollableScrollPhysics()
           : const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        final task = isCompletedTasks ? completedTasks[index] : tasks[index];
+        final task = tasks[index];
 
         return InkWell(
             onTap: () async {
