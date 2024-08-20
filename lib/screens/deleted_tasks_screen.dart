@@ -24,7 +24,7 @@ class DeletedTasksScreen extends ConsumerWidget {
           ),
         ),
         body: ListView.separated(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
           itemCount: tasks.length,
           itemBuilder: (context, index) {
             final task = tasks[index];
@@ -77,7 +77,7 @@ class DeletedTasksScreen extends ConsumerWidget {
             );
           },
           separatorBuilder: (BuildContext context, int index) {
-            return const Gap(15);
+            return const Gap(10);
           },
         ));
   }

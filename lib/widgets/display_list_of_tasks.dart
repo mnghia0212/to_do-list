@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:path/path.dart';
 import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/widgets/widgets.dart';
 import 'package:todo_app/utils/utils.dart';
