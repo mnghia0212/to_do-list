@@ -76,6 +76,16 @@ class TaskDatasource {
           where: 'id =?', whereArgs: [task.id]);
     });
   }
+
+  Future<int> removeTask(Tasks task) async {
+    final db = await database;
+    return db.transaction((txn) async {
+      return await txn.delete(
+        DBKeys.dbTable, 
+        where: 'id =?', 
+        whereArgs: [task.id]);
+    });
+  }
   
   Future<int> pinTask(Tasks task) async {
     final db = await database;
@@ -94,22 +104,6 @@ class TaskDatasource {
     final List<Map<String, dynamic>> data =
         await db.query(
           DBKeys.dbTable, 
-          orderBy: "id DESC"
-        );
-
-    return List.generate(
-      data.length, 
-      (index) => Tasks.fromJson(data[index])
-    );
-  }
-
-   Future<List<Tasks>> getDeletedTasks() async {
-    final db = await database;
-    final List<Map<String, dynamic>> data =
-        await db.query(
-          DBKeys.dbTable, 
-          where: '${DBKeys.isDeletedColumn} = ?',
-          whereArgs: [1],
           orderBy: "id DESC"
         );
 

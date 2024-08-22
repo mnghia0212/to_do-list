@@ -21,6 +21,15 @@ class TaskRepositoryImpl implements TaskRepositories {
       throw '$e';
     }
   }
+
+  @override
+  Future<void> removeTask(Tasks task) async {
+    try {
+      await _datasource.removeTask(task);
+    } catch (e) {
+      throw '$e';
+    }
+  }
   
   @override
   Future<void> updateTask(Tasks task) async {
@@ -44,15 +53,6 @@ class TaskRepositoryImpl implements TaskRepositories {
   Future<List<Tasks>> getAllTasks() async {
     try {
       return await _datasource.getAllTasks();
-    } catch (e) {
-      throw '$e';
-    }
-  }
-
-  @override
-  Future<List<Tasks>> getDeletedTasks() async {
-    try {
-      return await _datasource.getDeletedTasks();
     } catch (e) {
       throw '$e';
     }

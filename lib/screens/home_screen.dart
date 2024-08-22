@@ -58,7 +58,7 @@ class HomeScreen extends ConsumerWidget {
               Container(
                 width: deviceSize.width,
                 height: deviceSize.height * 0.25,
-                color: colors.primaryFixed,
+                color: colors.primary,
                 child: const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -77,7 +77,7 @@ class HomeScreen extends ConsumerWidget {
             right: 0,
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 17),
+                padding: const EdgeInsets.symmetric(horizontal: 13),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [

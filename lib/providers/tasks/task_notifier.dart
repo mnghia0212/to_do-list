@@ -30,6 +30,15 @@ class TaskNotifier extends StateNotifier<TaskState> {
     }
   }
 
+  Future<void> removeTask(Tasks task) async {
+    try {
+      await _repository.removeTask(task);
+      getTasks();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   Future<void> updateTask(Tasks task) async {
     try {
       final isCompleted = !task.isCompleted;
@@ -61,12 +70,4 @@ class TaskNotifier extends StateNotifier<TaskState> {
     }
   }
 
-  void getDeletedTasks() async {
-    try {
-      final tasks = await _repository.getDeletedTasks();
-      state = state.copyWith(tasks: tasks);
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
 }

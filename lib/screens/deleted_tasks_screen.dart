@@ -65,7 +65,7 @@ class DeletedTasksScreen extends ConsumerWidget {
                               Text(task.date),
                             ],
                           ),
-                          const Gap(170),
+                          const Gap(160),
                           if(task.isCompleted)
                             const Icon(
                               Icons.check_box

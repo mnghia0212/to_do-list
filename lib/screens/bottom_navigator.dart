@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/config/routes/route_location.dart';
 import 'package:todo_app/providers/navigation_provider.dart';
 import 'package:todo_app/screens/screens.dart';
 import 'package:todo_app/screens/setting_screen.dart';
 import 'package:todo_app/utils/extensions.dart';
-import 'package:todo_app/widgets/circle_container.dart';
 
 class BottomNavigator extends ConsumerWidget {
   static BottomNavigator builder(BuildContext context, GoRouterState state) =>
@@ -59,8 +57,8 @@ class BottomNavigator extends ConsumerWidget {
               opacity: 1
             ),
             unselectedIconTheme: const IconThemeData(
-              color: Colors.grey,
-              opacity: 1
+              color: Colors.white,
+              opacity: 0.5
             ),
             currentIndex: currentIndex,
              onTap: (value) {
