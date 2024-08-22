@@ -46,7 +46,7 @@ class TaskSlidable extends ConsumerWidget {
                         context,
                         task.isDeleted
                         ? "${task.title} restored"
-                        : "${task.title} removed",                    
+                        : "${task.title} deleted permanently",                    
                         AlertType.success);
                   });
                 },
@@ -64,7 +64,7 @@ class TaskSlidable extends ConsumerWidget {
                       .then((value) {
                     AppAlerts.showFlushBar(
                         context,
-                        "${task.title} removed",
+                        "${task.title} deleted permanently",
                         AlertType.success);
                   });
                   },
@@ -87,7 +87,7 @@ class TaskSlidable extends ConsumerWidget {
                     (value) {
                       AppAlerts.showFlushBar(
                           context,
-                          '${task.title} removed',
+                          '${task.title} deleted permanently',
                           AlertType.success);
                     },
                 )

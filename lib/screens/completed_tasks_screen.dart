@@ -25,7 +25,7 @@ class CompletedTasksScreen extends ConsumerWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 15, 20, 5),
+        padding: const EdgeInsets.all(13),
         child: Column(
           children: [
             Expanded(

@@ -23,7 +23,13 @@ class DeletedTasksScreen extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        body: ListView.separated(
+        body: tasks.isEmpty
+        ? const Center(child: DisplayText(
+            text: "No deleted tasks",
+            fontSize: 18,
+            color: Colors.black,
+          ),)
+        : ListView.separated(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
           itemCount: tasks.length,
           itemBuilder: (context, index) {

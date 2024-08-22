@@ -17,87 +17,94 @@ class BottomNavigator extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(navigationProvider);
     final colors = context.colorScheme;
+    final deviceSize = context.deviceSize;
 
-    return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Container(
-          margin: const EdgeInsets.only(top: 10),
-          width: 67,
-          height: 50,
-          child: FloatingActionButton(
-              onPressed: () => context.push(RouteLocation.createTask),
-              elevation: 0,
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 3, color: colors.primary),
-                borderRadius: BorderRadius.circular(10)
+    return Scaffold(        
+        bottomNavigationBar: Stack(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: colors.primary,
               ),
-              splashColor: colors.primaryContainer,
-              tooltip: "Tap to create new task",
-              child: Icon(Icons.add, color: colors.primary,size: 28,)
-          ),
-        ),
-
-        bottomNavigationBar: Container(
-          margin: const EdgeInsets.only(left: 10, right: 10),
-          padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-                      color: colors.primary,
-
-          ),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: colors.primary,
-            elevation: 0,
-            showUnselectedLabels: false,
-            selectedItemColor: Colors.white,
-            selectedIconTheme: const IconThemeData(
-              color: Colors.white,
-              opacity: 1
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: colors.primary,
+                elevation: 0,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                selectedItemColor: Colors.white,
+                selectedIconTheme: const IconThemeData(
+                  color: Colors.white,
+                  opacity: 1
+                ),
+                unselectedIconTheme: const IconThemeData(
+                  color: Colors.white,
+                  opacity: 0.5
+                ),
+                currentIndex: currentIndex,
+                onTap: (value) {
+                  if (value != 2) {
+                    ref.read(navigationProvider.notifier).state = value;
+                  }
+              },
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: "Home",
+                      tooltip: "Tap to go to home screen"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.done_all_outlined),
+                      label: "Completed",
+                      tooltip: "Tap to see completed tasks"),
+                  BottomNavigationBarItem(
+                      icon:  SizedBox.shrink(),
+                      label: "Create task",
+                      tooltip: "Tap to create new task"
+                      
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.delete),
+                      label: "Deleted",
+                      tooltip: "Tap to see deleted tasks"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.settings),
+                      label: "Setting",
+                      tooltip: "Tap to make some settings"),
+                ],
             ),
-            unselectedIconTheme: const IconThemeData(
-              color: Colors.white,
-              opacity: 0.5
-            ),
-            currentIndex: currentIndex,
-             onTap: (value) {
-              if (value != 2) {
-                ref.read(navigationProvider.notifier).state = value;
-              }
-          },
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: "Home",
-                  tooltip: "Tap to go to home screen"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.done_all_outlined),
-                  label: "Completed",
-                  tooltip: "Tap to see completed tasks"),
-              BottomNavigationBarItem(
+          ),
+
+          Positioned(
+            bottom: 10,
+            left: deviceSize.width / 2 - 32.5,
+            child: SizedBox(
+              width: 65,
+              height: 45,
+              child: FloatingActionButton(
+                  onPressed: () => context.push(RouteLocation.createTask),
+                  elevation: 0,
                   backgroundColor: Colors.white,
-                  icon: SizedBox.shrink(),
-                  label: "",
-                  
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: colors.primary),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  splashColor: colors.primaryContainer,
+                  tooltip: "Tap to create new task",
+                  child: Icon(Icons.add, color: colors.primary,size: 28,)
+              ),
             ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.delete),
-                  label: "Deleted",
-                  tooltip: "Tap to see deleted tasks"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: "Setting",
-                  tooltip: "Tap to make some settings"),
-            ],
-          ),
+          )
+          ] 
         ),
         body: IndexedStack(
           index: currentIndex,
           children: const [
             HomeScreen(),
             CompletedTasksScreen(),
-            SizedBox.shrink(),
+            CreateTaskScreen(),
             DeletedTasksScreen(),
             SettingScreen()
           ],

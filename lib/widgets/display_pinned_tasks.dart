@@ -19,13 +19,13 @@ class DisplayPinnedTasks extends ConsumerWidget {
     final unpinnedTasks = tasks.where((tasks) => !tasks.isPinned).toList();
 
     return CommonContainer(
-      height: context.deviceSize.height * 0.65,
+      height: context.deviceSize.height * 0.64,
       backgroundColor: context.colorScheme.primaryContainer,
       child: tasks.isEmpty ?
       const Center(child: DisplayText(
         text: "There is no todo task",
         color: Colors.black,
-        fontSize: 20,
+        fontSize: 18,
       )) :
       SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
