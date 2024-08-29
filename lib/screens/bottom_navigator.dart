@@ -23,7 +23,7 @@ class BottomNavigator extends ConsumerWidget {
         bottomNavigationBar: Stack(
           children: [
             Container(
-              margin: const EdgeInsets.only(left: 10, right: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -88,7 +88,7 @@ class BottomNavigator extends ConsumerWidget {
                   elevation: 0,
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(color: colors.primary),
+                    side: BorderSide(color: colors.primary, width: 1),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   splashColor: colors.primaryContainer,

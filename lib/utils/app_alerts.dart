@@ -58,48 +58,54 @@ class AppAlerts {
         color: Colors.black,
       ),
       borderRadius: BorderRadius.circular(20),
-      margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       boxShadows: const [
         BoxShadow(color: Colors.grey, offset: Offset(0.0, 2.0), blurRadius: 3.0)
       ],
     ).show(context);
   }
 
-  static Future<void> showAlertDeleteDialog({
+  static Future<bool> showAlertDeleteDialog({
     required BuildContext context,
     required WidgetRef ref,
     required Tasks task,
   }) async {
     Widget cancelButton = TextButton(
-      child: const Text('NO'),
-      onPressed: () => context.pop(),
+      child: const Text('NO'), 
+      onPressed: () => context.pop(false)
     );
+
     Widget deleteButton = TextButton(
-      onPressed: () async {
-        await ref.read(taskProvider.notifier).deleteTask(task).then(
-          (value) {
-            context.pop();
-            AppAlerts.showFlushBar(context,
-                '${task.title} deleted successfully', AlertType.success);
-          },
-        );
-      },
+      onPressed: () => context.pop(true),
       child: const Text('YES'),
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text('Are you sure you want to delete ${task.title}?'),
+      title: Text('Are you sure you want to delete ${task.title} permanently?'),
       actions: [
         deleteButton,
         cancelButton,
       ],
     );
+    
+    if(task.isDeleted){
+      bool isDismiss = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          },
+        ) ??
+        false;
 
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+      if (isDismiss) {
+        await ref.read(taskProvider.notifier).removeTask(task).then((value) {
+            AppAlerts.showFlushBar(
+                context, '${task.title} deleted permanently', AlertType.success);
+          });
+      }
+      
+      return isDismiss;
+    }
+    return true;
   }
 }

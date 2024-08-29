@@ -60,17 +60,3 @@ class CompletedTasksScreen extends ConsumerWidget {
   }
 }
 
-// List<Tasks> _completedTask(List<Tasks> tasks, WidgetRef ref) {
-//   final date = ref.watch(dateProvider);
-//   final List<Tasks> filteredTask = [];
-
-//   for (var task in tasks) {
-//     if (task.isCompleted) {
-//       final isTaskDay = Helpers.isTaskFromSelectedDate(task, date);
-//       if (isTaskDay) {
-//         filteredTask.add(task);
-//       }
-//     }
-//   }
-//   return filteredTask;
-// }
