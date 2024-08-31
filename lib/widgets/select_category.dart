@@ -7,7 +7,7 @@ import 'package:todo_app/widgets/circle_container.dart';
 
 class SelectCategory extends ConsumerWidget {
   const SelectCategory({super.key});
-
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategory = ref.watch(categoryProvider);

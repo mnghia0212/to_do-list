@@ -40,12 +40,21 @@ class TaskTile extends StatelessWidget {
                 style: style.titleMedium?.copyWith(
                     decoration: textDecoration,
                     fontWeight: FontWeight.bold)),
-            Text(task.date,
-                style:
-                    style.bodyMedium?.copyWith(decoration: textDecoration)),
+            Row(
+              children: [
+                Text("${task.time}, ",
+                    style:
+                        style.bodyMedium?.copyWith(decoration: textDecoration)),
+
+
+                Text(task.date,
+                    style:
+                        style.bodyMedium?.copyWith(decoration: textDecoration)),
+              ],
+            ),
           ],
         ),
-        const Gap(80),
+        const Gap(50),
         if(task.isPinned && !task.isCompleted)
           Expanded(
             child: Image.asset(

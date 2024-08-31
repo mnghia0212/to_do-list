@@ -8,15 +8,23 @@ final appRoutes = [
   GoRoute(
     path: RouteLocation.home,
     parentNavigatorKey: navigationKey,
-    builder: HomeScreen.builder, //c2: (context, state) => HomeScreen() - Ko 
-                                  //chuyen builder o screen
+    builder: HomeScreen.builder, //c2: (context, state) => HomeScreen() - Ko
+    //chuyen builder o screen
   ),
-  GoRoute(  
+  GoRoute(
     path: RouteLocation.createTask,
     parentNavigatorKey: navigationKey,
-    builder: CreateTaskScreen.builder,
+    builder: (context, state) => const CreateTaskScreen(),
   ),
-  GoRoute(  
+  GoRoute(
+    path: RouteLocation.editTask,
+    parentNavigatorKey: navigationKey,
+    builder: (context, state) {
+      final taskId = state.pathParameters['id'];
+      return CreateTaskScreen(id: taskId);
+    },
+  ),
+  GoRoute(
     path: RouteLocation.bottomNavigator,
     parentNavigatorKey: navigationKey,
     builder: BottomNavigator.builder,

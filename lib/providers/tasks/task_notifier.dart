@@ -61,6 +61,28 @@ class TaskNotifier extends StateNotifier<TaskState> {
     }
   }
 
+  Future<void> editTask(Tasks task) async {
+    try {
+      await _repository.editTask(task);
+      getTasks();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Tasks? getTaskById(String? id) {
+    if (id == null) return null;
+
+    try {
+      final taskId = int.parse(id);
+
+      return state.tasks.firstWhere((task) => task.id == taskId);
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
   void getTasks() async {
     try {
       final tasks = await _repository.getAllTasks();
@@ -69,5 +91,4 @@ class TaskNotifier extends StateNotifier<TaskState> {
       debugPrint(e.toString());
     }
   }
-
 }

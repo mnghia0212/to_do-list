@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/data/data.dart';
 import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/utils/utils.dart';
@@ -34,6 +35,14 @@ class TaskSlidable extends ConsumerWidget {
                 foregroundColor: Colors.black,
                 icon: task.isPinned ? Icons.push_pin : Icons.push_pin_outlined,
               ),
+            if (!task.isCompleted && !task.isDeleted)
+              SlidableAction(
+                  onPressed: (context) {
+                    context.push('/editTask/${task.id}');
+                  },
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.black,
+                  icon: Icons.edit_outlined),
             SlidableAction(
               onPressed: (context) async {
                 await ref

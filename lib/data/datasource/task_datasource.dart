@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_app/data/data.dart';
+import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/utils/utils.dart';
 
 class TaskDatasource {
@@ -22,8 +25,8 @@ class TaskDatasource {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, DBKeys.dbName);
     return openDatabase(
-      path, 
-      version: 1, 
+      path,
+      version: 1,
       onCreate: _onCreate,
     );
   }
@@ -44,7 +47,7 @@ class TaskDatasource {
       )
       ''');
     } catch (e) {
-        print("Error creating table: $e");
+      print("Error creating table: $e");
       rethrow;
     }
   }
@@ -61,11 +64,8 @@ class TaskDatasource {
     final db = await database;
     return db.transaction((txn) async {
       return await txn.update(
-        DBKeys.dbTable, 
-        {DBKeys.isDeletedColumn: task.isDeleted ? 1 : 0},
-        where: '${DBKeys.idColumn} = ?',
-        whereArgs: [task.id]
-        );
+          DBKeys.dbTable, {DBKeys.isDeletedColumn: task.isDeleted ? 1 : 0},
+          where: '${DBKeys.idColumn} = ?', whereArgs: [task.id]);
     });
   }
 
@@ -80,13 +80,11 @@ class TaskDatasource {
   Future<int> removeTask(Tasks task) async {
     final db = await database;
     return db.transaction((txn) async {
-      return await txn.delete(
-        DBKeys.dbTable, 
-        where: 'id =?', 
-        whereArgs: [task.id]);
+      return await txn
+          .delete(DBKeys.dbTable, where: 'id =?', whereArgs: [task.id]);
     });
   }
-  
+
   Future<int> pinTask(Tasks task) async {
     final db = await database;
     return db.transaction((txn) async {
@@ -99,17 +97,24 @@ class TaskDatasource {
     });
   }
 
+  // Future<int> editTask(Tasks task) async {
+  //   final db = await database;
+  //   final Map<String, dynamic> updatedFields = task.toJson();
+  //   return db.transaction((txn) async {
+  //     return await txn.update(
+  //       DBKeys.dbTable,
+  //       updatedFields,
+  //       where: '${DBKeys.idColumn} = ?',
+  //       whereArgs: [task.id],
+  //     );
+  //   });
+  // }
+
   Future<List<Tasks>> getAllTasks() async {
     final db = await database;
     final List<Map<String, dynamic>> data =
-        await db.query(
-          DBKeys.dbTable, 
-          orderBy: "id DESC"
-        );
+        await db.query(DBKeys.dbTable, orderBy: "id DESC");
 
-    return List.generate(
-      data.length, 
-      (index) => Tasks.fromJson(data[index])
-    );
+    return List.generate(data.length, (index) => Tasks.fromJson(data[index]));
   }
 }

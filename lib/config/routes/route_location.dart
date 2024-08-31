@@ -7,4 +7,5 @@ class RouteLocation {
   static String get bottomNavigator => '/bottomNavigator';
   static String get home => '/home';
   static String get createTask => '/createTask';
+  static String get editTask => '/editTask/:id';
 }

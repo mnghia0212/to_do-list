@@ -50,6 +50,15 @@ class TaskRepositoryImpl implements TaskRepositories {
   }
 
   @override
+  Future<void> editTask(Tasks task) async {
+    try {
+      await _datasource.updateTask(task);
+    } catch (e) {
+      throw '$e';
+    }
+  }
+
+  @override
   Future<List<Tasks>> getAllTasks() async {
     try {
       return await _datasource.getAllTasks();
