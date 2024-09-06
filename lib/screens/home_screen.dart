@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/config/routes/routes.dart';
 import 'package:todo_app/data/data.dart';
 import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/utils/helpers.dart';

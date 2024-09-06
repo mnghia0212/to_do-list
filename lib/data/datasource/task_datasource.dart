@@ -97,19 +97,6 @@ class TaskDatasource {
     });
   }
 
-  // Future<int> editTask(Tasks task) async {
-  //   final db = await database;
-  //   final Map<String, dynamic> updatedFields = task.toJson();
-  //   return db.transaction((txn) async {
-  //     return await txn.update(
-  //       DBKeys.dbTable,
-  //       updatedFields,
-  //       where: '${DBKeys.idColumn} = ?',
-  //       whereArgs: [task.id],
-  //     );
-  //   });
-  // }
-
   Future<List<Tasks>> getAllTasks() async {
     final db = await database;
     final List<Map<String, dynamic>> data =

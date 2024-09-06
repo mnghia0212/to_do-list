@@ -11,11 +11,11 @@ class TaskDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = context.textTheme;
-    final noteText = task.note.isEmpty ? "There is no note for this task" : task.note;
+    final noteText = task.note.isEmpty ? "No note for this task" : task.note;
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
       
@@ -60,31 +60,39 @@ class TaskDetails extends StatelessWidget {
         
               const Gap(10),
         
-              Text("Created on ${task.time}",
-                style: const TextStyle(
-                  fontSize: 16
-                ), 
-              ),
-        
-        
               Visibility(
                 visible: !task.isCompleted,
                 child: const Gap(10)),
         
               Visibility(
-                visible: !task.isCompleted,
+                visible: !task.isCompleted && task.date != null && task.time != null,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Task will be completed on ${task.date}"),
+                    Text("Complete on ${task.date}, ${task.time}"),
                     const Gap(3),
                     Icon(Icons.check_box, color: task.category.color,)
                   ],
                 )
               ),
+
+               Visibility(
+                visible: task.date == null || task.time == null,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if(task.date == null && task.time == null)
+                      const Text("No date, no time")
+                    else if(task.date != null && task.time == null)
+                      Text("Complete on ${task.date}")
+                    else if(task.date == null && task.time != null)
+                      Text("Complete on ${task.date}, ${task.time}")                  
+                  ],
+                )
+              ),
         
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
                 child: Divider(
                   thickness: 1.5,
                   color: task.category.color,

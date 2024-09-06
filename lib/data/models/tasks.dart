@@ -6,8 +6,8 @@ class Tasks extends Equatable {
   final int? id;
   final String title;
   final String note;
-  final String time;
-  final String date;
+  final String? time;
+  final String? date;
   final bool isCompleted;
   final bool isPinned;
   final bool isDeleted;
@@ -17,8 +17,8 @@ class Tasks extends Equatable {
       {this.id,
       required this.title,
       required this.note,
-      required this.time,
-      required this.date,
+      this.time,
+      this.date,
       required this.isCompleted,
       required this.isPinned,
       required this.isDeleted,
@@ -31,8 +31,8 @@ class Tasks extends Equatable {
       id!,
       title,
       note,
-      time,
-      date,
+      time!,
+      date!,
       isCompleted,
       isPinned,
       isDeleted

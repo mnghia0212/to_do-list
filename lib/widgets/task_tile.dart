@@ -36,22 +36,23 @@ class TaskTile extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(task.title,
+            Text(task.title.isEmpty ? "New task" : task.title,
                 style: style.titleMedium?.copyWith(
                     decoration: textDecoration,
                     fontWeight: FontWeight.bold)),
-            Row(
-              children: [
-                Text("${task.time}, ",
-                    style:
-                        style.bodyMedium?.copyWith(decoration: textDecoration)),
-
-
-                Text(task.date,
-                    style:
-                        style.bodyMedium?.copyWith(decoration: textDecoration)),
-              ],
-            ),
+              Row(
+                children: [
+                  if(task.date == null && task.time == null)
+                      const SizedBox.shrink()
+                    else if(task.date != null && task.time == null)
+                      Text("${task.date}")
+                    else if(task.date == null && task.time != null)
+                      Text("${task.date}, ${task.time}")     
+                    else 
+                      Text("${task.date}, ${task.time}")    
+                    
+                ],
+              ),
           ],
         ),
         const Gap(50),

@@ -68,10 +68,17 @@ class DeletedTasksScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(task.title),
-                              Text(task.date),
+                              
+                              if(task.date != null && task.time != null)
+                                Row(
+                                  children: [
+                                    Text('${task.date}, '),
+                                    Text("${task.time}"),
+                                  ],
+                                )
                             ],
                           ),
-                          const Gap(160),
+                          const Gap(130),
                           if(task.isCompleted)
                             const Icon(
                               Icons.check_box

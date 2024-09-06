@@ -6,7 +6,8 @@ import 'package:todo_app/providers/date_provider.dart';
 import 'package:todo_app/providers/providers.dart';
 
 class Helpers {
-  Helpers._();
+  Helpers._(this.ref);
+  final WidgetRef ref;
 
   static String timeToString(TimeOfDay time) {
     try {
@@ -19,35 +20,13 @@ class Helpers {
     }
   }
 
-
-  static void selectDate(BuildContext context, WidgetRef ref) async {
-    final initialDate = ref.read(dateProvider);
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime(2023),
-      lastDate: DateTime(2060),
-    );
-
-    if (pickedDate != null) {
-      ref.read(dateProvider.notifier).state = pickedDate;
-    }
-  }
-
-  static bool isTaskFromSelectedDate(Tasks task, DateTime selectedDate) {
-    final DateTime taskDate = _stringToDateTime(task.date);
-    if (taskDate.month == selectedDate.month &&
-        taskDate.year == selectedDate.year &&
-        taskDate.day == selectedDate.day) {
-      return true;
-    }
-    return false;
-  }
-
-  static DateTime _stringToDateTime(String dateString) {
+  static DateTime _stringToDateTime(String? dateString) {
     try {
       DateFormat format = DateFormat.yMMMd();
-      return format.parse(dateString);
+      if (dateString != null) {
+        return format.parse(dateString);
+      }
+      return DateTime.now();
     } catch (e) {
       return DateTime.now();
     }
@@ -63,5 +42,45 @@ class Helpers {
     }
   }
 
+  static void selectDate(BuildContext context, WidgetRef ref) async {
+    final initialDate = ref.read(dateProvider) ?? DateTime.now();
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2023),
+      lastDate: DateTime(2060),
+    );
 
+    if (pickedDate != null) {
+      ref.read(dateProvider.notifier).state = pickedDate;
+    }
+  }
+
+  static bool isTaskFromSelectedDate(Tasks task, DateTime selectedDate) {
+    final DateTime taskDate = _stringToDateTime(task.date);
+
+    if (taskDate != DateTime.now() && taskDate.month == selectedDate.month &&
+        taskDate.year == selectedDate.year &&
+        taskDate.day == selectedDate.day) {
+      return true;
+    }
+    return false;
+  }
+
+  static Tasks? getTaskById(String? id, WidgetRef ref) {
+    if (id == null) return null;
+
+    try {
+      final taskId = int.tryParse(id);
+      if (taskId == null) return null;
+
+      return ref
+          .watch(taskProvider)
+          .tasks
+          .firstWhere((task) => task.id == taskId);
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
 }

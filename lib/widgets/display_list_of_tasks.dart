@@ -59,7 +59,7 @@ class DisplayListOfTasks extends ConsumerWidget {
         );
       },
       separatorBuilder: (BuildContext context, int index) {
-        return const Gap(15);
+        return const Gap(17);
       },
     );
   }
