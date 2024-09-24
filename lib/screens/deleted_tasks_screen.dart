@@ -16,8 +16,9 @@ class DeletedTasksScreen extends ConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: context.colorScheme.primary,
           centerTitle: true,
-          title: const DisplayText(
+          title: const DisplayTittleText(
             text: "Deleted Tasks",
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -67,7 +68,10 @@ class DeletedTasksScreen extends ConsumerWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(task.title),
+                              DisplayText(
+                                text: task.title,
+                                fontSize: 16,
+                              ),
                               
                               if(task.date != null && task.time != null)
                                 Row(

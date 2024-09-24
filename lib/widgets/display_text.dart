@@ -13,9 +13,10 @@ class DisplayText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
+      
       text,
-      style: context.textTheme.headlineSmall?.copyWith(
-          color: color,
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+          //color: color,
           fontSize: fontSize,
           fontWeight: fontWeight ?? FontWeight.bold),
     );

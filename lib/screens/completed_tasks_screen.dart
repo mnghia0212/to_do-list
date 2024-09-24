@@ -18,7 +18,8 @@ class CompletedTasksScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const DisplayText(
+        backgroundColor: context.colorScheme.primary,
+        title: const DisplayTittleText(
           text: "Completed Tasks",
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -36,7 +37,6 @@ class CompletedTasksScreen extends ConsumerWidget {
                         child: DisplayText(
                         text: "There is no completed todo task",
                         fontSize: 18,
-                        color: Colors.black,
                       ))
                     : DisplayListOfTasks(tasks: tasks),
               ),

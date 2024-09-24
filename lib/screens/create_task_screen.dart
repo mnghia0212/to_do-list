@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/config/routes/routes.dart';
+import 'package:todo_app/notifications/notifications.dart';
 import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/utils/utils.dart';
 import 'package:todo_app/widgets/widgets.dart';
@@ -49,7 +50,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        // actions: const [],
+        backgroundColor: context.colorScheme.primaryContainer,
         title: DisplayText(
           text: isEditing ? "Edit task" : "Add a new task",
           fontSize: 25,
@@ -70,7 +71,9 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                 controller: _titleController,
               ),
               const Gap(30),
-              SelectCategory(task: task,),
+              SelectCategory(
+                task: task,
+              ),
               const Gap(30),
               SelectDateTime(task: task),
               const Gap(30),
@@ -82,13 +85,14 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
               ),
               const Gap(30),
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: context.colorScheme.primaryContainer
+                  ),
                   onPressed: _saveAndCreateTask,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 13),
                     child: DisplayText(
-                      text: task != null 
-                      ? "Save"
-                      : "Create",
+                      text: task != null ? "Save" : "Create",
                       fontSize: 25,
                     ),
                   ))
@@ -100,24 +104,21 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   }
 
   void _saveAndCreateTask() async {
-    final title = _titleController.text.trim().isEmpty 
-                  ? "New task" 
-                  : _titleController.text.trim();
+    final title = _titleController.text.trim().isEmpty
+        ? "New task"
+        : _titleController.text.trim();
     final note = _noteController.text.trim();
     final date = ref.watch(dateProvider);
     final time = ref.watch(timeProvider);
     final category = ref.watch(categoryProvider);
 
-    if (task != null) { // ** edit task
+    if (task != null) {
+      // ** edit task
       final tasks = task!.copyWith(
           title: title,
           note: note,
-          date: date != null
-              ? DateFormat.yMMMd().format(date)
-              : task!.date,
-          time: time != null
-              ? Helpers.timeToString(time)
-              : task!.time,
+          date: date != null ? DateFormat.yMMMd().format(date) : task!.date,
+          time: time != null ? Helpers.timeToString(time) : task!.time,
           category: category);
 
       await ref.read(taskProvider.notifier).editTask(tasks).then((value) {
@@ -125,28 +126,27 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
         AppAlerts.showFlushBar(
             context, "Task updated successfully", AlertType.success);
       });
-
-    } else { // *create task
+    } else {
+      // *create task
       final task = Tasks(
           title: title,
           note: note,
-          time: time != null
-              ? Helpers.timeToString(time)
-              : null,
+          time: time != null ? Helpers.timeToString(time) : null,
           date: date != null
               ? DateFormat.yMMMd().format(date)
-              : time != null 
-                  ? DateFormat.yMMMd().format(DateTime.now()) 
+              : time != null
+                  ? DateFormat.yMMMd().format(DateTime.now())
                   : null,
           category: category,
           isCompleted: false,
           isPinned: false,
           isDeleted: false);
 
+      
+
       await ref.read(taskProvider.notifier).createTask(task).then((value) {
         context.pop(RouteLocation.bottomNavigator);
-        AppAlerts.showFlushBar(
-            context, "New task created", AlertType.success);
+        AppAlerts.showFlushBar(context, "New task created", AlertType.success);
       });
     }
   }

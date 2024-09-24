@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/config/config.dart';
 import 'package:todo_app/config/routes/routes_provider.dart';
-
+import 'package:todo_app/providers/theme_provider.dart';
 
 class ToDoApp extends ConsumerWidget {
   const ToDoApp({super.key});
@@ -10,11 +10,13 @@ class ToDoApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final routeConfig = ref.watch(routesProvider);
-    
-    return  MaterialApp.router(
+    final isDarkTheme = ref.watch(themeProvider);
+
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
+      theme: isDarkTheme ? AppTheme.dark : AppTheme.light,
+      darkTheme: ThemeData.dark(),
       routerConfig: routeConfig,
     );
-  } 
+  }
 }

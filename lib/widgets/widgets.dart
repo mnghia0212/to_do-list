@@ -9,3 +9,4 @@ export 'select_date_time.dart';
 export 'select_category.dart';
 export 'display_pinned_tasks.dart';
 export 'task_slidable.dart';
+export 'display_tittle_text.dart';

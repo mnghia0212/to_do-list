@@ -24,7 +24,6 @@ class DisplayPinnedTasks extends ConsumerWidget {
       child: tasks.isEmpty ?
       const Center(child: DisplayText(
         text: "There is no todo task",
-        color: Colors.black,
         fontSize: 18,
       )) :
       SingleChildScrollView(

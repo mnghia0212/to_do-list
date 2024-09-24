@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/data/data.dart';
+import 'package:todo_app/notifications/notifications.dart';
 import 'package:todo_app/providers/providers.dart';
 import 'package:todo_app/utils/helpers.dart';
 import 'package:todo_app/utils/utils.dart';
@@ -25,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: DisplayText(
+        title: DisplayTittleText(
           text: "Hi, today is ${DateFormat.yMMMd().format(DateTime.now())}",
           fontWeight: FontWeight.normal,
           fontSize: 18,
@@ -41,8 +42,8 @@ class HomeScreen extends ConsumerWidget {
                 color: const Color.fromARGB(60, 212, 204, 204),
               ),
               child: IconButton(
-                  onPressed: () {
-                    showSearch(
+                  onPressed: () async{
+                    await showSearch(
                         context: context, delegate: TaskSearchdelegate(ref));
                   },
                   icon: const Icon(Icons.search)),
@@ -61,7 +62,7 @@ class HomeScreen extends ConsumerWidget {
                 child: const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      DisplayText(
+                      DisplayTittleText(
                         text: "My todo list",
                         fontWeight: FontWeight.bold,
                         fontSize: 45,
@@ -82,7 +83,7 @@ class HomeScreen extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        const DisplayText(
+                        const DisplayTittleText(
                           text: "Filter: ",
                           fontSize: 16,
                         ),
@@ -98,7 +99,7 @@ class HomeScreen extends ConsumerWidget {
                             children: [
                               InkWell(
                                 onTap: () => Helpers.selectDate(context, ref),
-                                child: DisplayText(
+                                child: DisplayTittleText(
                                   text: selectedDate != null
                                       ? Helpers.dateFormatter(selectedDate)
                                       : "Select date",
@@ -107,8 +108,7 @@ class HomeScreen extends ConsumerWidget {
                               ),
                               if (selectedDate != null)
                                 Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     const VerticalDivider(
                                       color: Colors.white,
@@ -127,8 +127,7 @@ class HomeScreen extends ConsumerWidget {
                                               .read(dateProvider.notifier)
                                               .state = null;
                                         },
-                                        icon:
-                                            const Icon(Icons.close, size: 16),
+                                        icon: const Icon(Icons.close, size: 16),
                                         color: Colors.white,
                                       ),
                                     ),
@@ -154,7 +153,8 @@ class HomeScreen extends ConsumerWidget {
   List<Tasks> _filterTaskByDate(List<Tasks> tasks, DateTime? selectedDate) {
     final List<Tasks> filteredTask = [];
 
-    final uncompletedTask = tasks.where((task) => !task.isCompleted && !task.isDeleted).toList();
+    final uncompletedTask =
+        tasks.where((task) => !task.isCompleted && !task.isDeleted).toList();
 
     if (selectedDate == null) {
       return uncompletedTask;
