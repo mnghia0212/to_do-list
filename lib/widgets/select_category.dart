@@ -41,10 +41,22 @@ class _SelectCategoryState extends ConsumerState<SelectCategory> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Category:",
-            style: Theme.of(context).textTheme.titleLarge,
+          Row(
+            children: [
+              Text(
+              "Category:",
+              style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const Gap(10),
+              Text(
+                selectedCategory.name.toUpperCase(),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: selectedCategory.color
+                ),
+              ),
+            ],
           ),
+          
           const Gap(10),
           Expanded(
             child: ListView.separated(

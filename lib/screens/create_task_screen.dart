@@ -145,7 +145,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       
 
       await ref.read(taskProvider.notifier).createTask(task).then((value) {
-        context.pop(RouteLocation.bottomNavigator);
+        context.pop(RouteLocation.home);
         AppAlerts.showFlushBar(context, "New task created", AlertType.success);
       });
     }
